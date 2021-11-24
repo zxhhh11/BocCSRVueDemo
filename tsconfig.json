@@ -11,14 +11,13 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "types": [
-      "webpack-env"
-    ],
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "/@/*": ["src/*"],
+      "@build/*": ["build/*"],
+      "/#/*": ["types/*"]
     },
+    "types": ["node","webpack-env","element-plus/global"],
+    "typeRoots": ["./node_modules/@types/", "./types"],
     "lib": [
       "esnext",
       "dom",
@@ -31,9 +30,8 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+    "tests/**/*.tsx",
+    "types/*.d.ts"
+    ],
+  "exclude":["node_modules", "dist", "**/*.js"]
 }
