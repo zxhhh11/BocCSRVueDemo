@@ -11,15 +11,16 @@ function requestHandle(params: AxiosRequestConfig<any>) {
   return new Promise((resolve, reject) => {
     axios(params)
       .then((res) => {
+        console.log(res);
         if (res.data) {
-          if (res.data.status === 200) {
+          if (res.status === 200) {
             resolve({
-              data: res.data.data ? res.data.data : null
+              data: res.data ? res.data : null
             });
-          } else if (res.data.status === 20122) {
+          } else if (res.status === 20122) {
             window.alert('无操作权限');
           } else {
-            if (res.data.status === 20121) {
+            if (res.status === 20121) {
               try {
                 document.location.replace('/login');
               } catch (err) {
@@ -49,7 +50,7 @@ function requestHandle(params: AxiosRequestConfig<any>) {
   });
 }
 
-function queryString(url: string | string[], query: { [x: string]: string }) {
+function queryString(url: string | string[], query?: { [x: string]: string }) {
   const str = [];
   for (const key in query) {
     if (query[key]) {
@@ -78,7 +79,8 @@ function getHeaders(options: any) {
 }
 
 export default {
-  post: function (url: any, params: any, op: any) {
+  post: function (url: any, params?: any, op?: any) {
+    console.log(url, params);
     return requestHandle({
       method: 'post',
       url: url,
@@ -88,8 +90,8 @@ export default {
   },
   get: function (
     url: string | string[],
-    params: { [x: string]: string },
-    op: any
+    params?: { [x: string]: string } | {},
+    op?: any
   ) {
     return requestHandle({
       method: 'get',

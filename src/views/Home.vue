@@ -10,10 +10,13 @@ import {
   Menu as IconMenu,
   Setting,
   Expand,
-  Share
+  Sugar
 } from '@element-plus/icons';
+import { logout } from '/@/apis/user';
+import { useRouter } from 'vue-router';
 const store = useStore();
 const isCollapse = ref(false);
+const router = useRouter();
 const handleOpen = (key: any, keyPath: any) => {
     console.log(key, keyPath);
   },
@@ -26,9 +29,22 @@ const handleOpen = (key: any, keyPath: any) => {
     isCollapse.value = !isCollapse.value;
   },
   IncrementHandle = () => {
-    console.log(store.state.user.count);
+    console.log(store.state.user.name);
     store.commit(UserMutationTypes.SET_COUNT, 1);
   };
+const handleLogout = async () => {
+  await logout().then((res) => {
+    console.log(res, '555');
+  });
+  router
+    .push({
+      path: '/login'
+      // query: state.otherQuery
+    })
+    .catch((err) => {
+      console.warn(err);
+    });
+};
 const count = computed(() => store.state.user.count);
 </script>
 
@@ -112,7 +128,7 @@ const count = computed(() => store.state.user.count);
           </div>
           <div>
             <el-icon :size="36">
-              <share />
+              <sugar @click="handleLogout" />
             </el-icon>
           </div>
         </span>

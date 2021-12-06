@@ -1,9 +1,10 @@
-import ajax from '/@/utils';
+import ajax from '/@/utils/ajax';
 const serverPre = ajax.serverUrlMock;
 const serverName = '/auth-center';
 const editPwdServerName = '/auth-management/user';
 
-export async function handleLogin(data) {
+export async function handleLogin(data: any) {
+  console.log(data);
   return ajax.post(serverPre(`${serverName}/jwt/login`), data);
 }
 

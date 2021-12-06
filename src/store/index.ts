@@ -16,7 +16,8 @@ export const store = createStore({
   plugins,
   modules: {
     user
-  }
+  },
+  strict: debug // 严格模式应在发布模式下关闭 已避免其运行带来的性能损耗
 });
 
 export function useStore(): Store {
