@@ -11,7 +11,6 @@ function requestHandle(params: AxiosRequestConfig<any>) {
   return new Promise((resolve, reject) => {
     axios(params)
       .then((res) => {
-        console.log(res);
         if (res.data) {
           if (res.status === 200) {
             resolve({

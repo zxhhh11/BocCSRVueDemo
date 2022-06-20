@@ -17,5 +17,5 @@ export const state: UserState = {
   introduction: '',
   roles: [],
   email: '',
-  count: 0
+  count: 7
 };

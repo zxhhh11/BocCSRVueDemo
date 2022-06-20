@@ -12,9 +12,7 @@
     "sourceMap": true,
     "baseUrl": ".",
     "paths": {
-      "/@/*": ["src/*"],
-      "@build/*": ["build/*"],
-      "/#/*": ["types/*"]
+      "@/*": ["src/*"],
     },
     "types": ["node","webpack-env","element-plus/global"],
     "typeRoots": ["./node_modules/@types/", "./types"],

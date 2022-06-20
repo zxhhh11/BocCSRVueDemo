@@ -15,7 +15,7 @@ import {
 import { Mutations, mutations } from './mutations';
 
 // TODO: How to surpass cyclical dependency linting errors cleanly?
-import { RootState } from '/@/store/index';
+import { RootState } from '@/store/index';
 import type { UserState } from './state';
 import { state } from './state';
 
@@ -27,13 +27,13 @@ export type UserStore<S = UserState> = Omit<
 > & {
   commit<K extends keyof Mutations, P extends Parameters<Mutations[K]>[1]>(
     key: K,
-    payload: P,
+    payload?: P,
     options?: CommitOptions
   ): ReturnType<Mutations[K]>;
 } & {
   dispatch<K extends keyof Actions>(
     key: K,
-    payload: Parameters<Actions[K]>[1],
+    payload?: Parameters<Actions[K]>[1],
     options?: DispatchOptions
   ): ReturnType<Actions[K]>;
 };

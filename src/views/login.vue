@@ -3,34 +3,33 @@ import { reactive, ref, unref } from 'vue';
 import { ElForm } from 'element-plus';
 // eslint-disable-next-line no-unused-vars
 import { User, Lock } from '@element-plus/icons';
-import { handleLogin } from '/@/apis/user';
+import { handleLogin } from '@/apis/user';
 import { useRouter } from 'vue-router';
 const state = reactive({ ruleForm: { username: '', pass: '' } });
 const ruleFormRef = ref(ElForm);
 const router = useRouter();
-const submitForm = () => {
-  const form = unref(ruleFormRef);
+const submitForm = (name: string) => {
+  console.log(name);
+  const form = unref(ruleFormRef); //  如果参数是一个 ref 则返回ref 内部值 相当于 ref.value 否则返回参数本身
   form.validate((valid: any) => {
     if (valid) {
       handleLogin({ username: 'xiaohui', pass: 'word' }).then((res: any) => {
         if (res) {
-          console.log({ res }, 1);
           if (res.data.status === 401) {
-            console.log({ res }, 2);
-            router
-              .push({
-                path: '/'
-                // query: state.otherQuery
-              })
-              .catch((err) => {
-                console.warn(err);
-              });
+            console.log({ res }, 'before push');
+            // router
+            //   .push({
+            //     path: '/dashboard'
+            //     // query: state.otherQuery
+            //   })
+            //   .catch((err) => {
+            //     console.warn(err);
+            //   });
+            router.push('/');
           }
         }
       });
     } else {
-      console.log('error submit!!');
-
       return false;
     }
   });
@@ -49,9 +48,9 @@ const submitForm = () => {
       ref="ruleFormRef"
       :model="state.ruleForm"
       status-icon
-      :rules="rules"
       class="demo-ruleForm"
     >
+      <!--  :rules="rules" -->
       <el-form-item prop="username">
         <el-input
           :prefix-icon="User"
@@ -81,13 +80,6 @@ const submitForm = () => {
 </template>
 
 <style>
-#app > div {
-  width: 100%;
-  height: 100%;
-  background: #f4f8fa;
-  border: 1px solid #f4f8fa;
-  box-sizing: border-box;
-}
 .login-box {
   width: 22em;
   height: 22em;

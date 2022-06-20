@@ -1,9 +1,6 @@
 <template>
   <div>
-    <!-- <div id="nav">
-      <router-link to="/login">Login</router-link>|
-      <router-link to="/about">About</router-link>
-    </div> -->
+    <!-- app.vue -->
     <router-view />
   </div>
 </template>
@@ -24,7 +21,13 @@ body,
   border-top: 1px solid transparent;
   box-sizing: border-box;
 }
-
+#app > div {
+  width: 100%;
+  height: 100%;
+  background: #f4f8fa;
+  border: 1px solid #f4f8fa;
+  box-sizing: border-box;
+}
 #nav {
   /* padding: 30px; */
 

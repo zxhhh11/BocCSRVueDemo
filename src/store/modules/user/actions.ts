@@ -1,23 +1,15 @@
-/*
- * @Description: app actions
- * @Author: ZY
- * @Date: 2020-12-23 10:25:37
- * @LastEditors: scy😊
- * @LastEditTime: 2021-01-29 08:46:37
- */
 import { ActionContext, ActionTree } from 'vuex';
-import { RootState, useStore } from '/@/store';
 import { UserState, state } from './state';
-import { loginRequest, userInfoRequest } from '/@/apis/user';
+import { loginRequest, userInfoRequest } from '@/apis/user';
 
 import { Mutations } from './mutations';
+import { RootState } from '@/store';
 // import { PermissionActionType } from '../permission/action-types';
 // import { RouteRecordRaw } from 'vue-router';
 import { UserActionTypes } from './action-types';
 import { UserMutationTypes } from './mutation-types';
-import { resetRouter } from '/@/router'; //router,
-
-// import { removeToken, setToken } from '/@/utils/cookies';
+import { logout } from '@/apis/user';
+import router from '@/router/index';
 
 type AugmentedActionContext = {
   commit<K extends keyof Mutations>(
@@ -37,10 +29,6 @@ export interface Actions {
   [UserActionTypes.ACTION_GET_USER_INFO]({
     commit
   }: AugmentedActionContext): void;
-  [UserActionTypes.ACTION_CHANGE_ROLES](
-    { commit }: AugmentedActionContext,
-    role: string
-  ): void;
   [UserActionTypes.ACTION_LOGIN_OUT]({ commit }: AugmentedActionContext): void;
   [UserActionTypes.INCREMENT](
     { commit }: AugmentedActionContext,
@@ -94,27 +82,19 @@ export const actions: ActionTree<UserState, RootState> & Actions = {
     });
   },
 
-  async [UserActionTypes.ACTION_CHANGE_ROLES](
-    { commit }: AugmentedActionContext,
-    role: string
-  ) {
-    const token = role + '-token';
-    const store = useStore();
-    commit(UserMutationTypes.SET_TOKEN, token);
-    // setToken(token);
-    await store.dispatch(UserActionTypes.ACTION_GET_USER_INFO, undefined);
-    // store.dispatch(PermissionActionType.ACTION_SET_ROUTES, state.roles);
-    // store.state.permission.dynamicRoutes.forEach((item: RouteRecordRaw) => {
-    //   router.addRoute(item);
-    // });
-  },
-
-  [UserActionTypes.ACTION_LOGIN_OUT]({ commit }: AugmentedActionContext) {
-    console.log(commit);
-    // removeToken();
+  async [UserActionTypes.ACTION_LOGIN_OUT]({ commit }: AugmentedActionContext) {
+    await logout().then((res) => {
+      console.log(res, router, '555');
+    });
+    router
+      .push({
+        path: '/login'
+      })
+      .catch((err) => {
+        console.warn(err);
+      });
     commit(UserMutationTypes.SET_TOKEN, '');
     commit(UserMutationTypes.SET_ROLES, []);
-    resetRouter();
   },
   [UserActionTypes.INCREMENT]({ commit }: AugmentedActionContext, num) {
     console.log({ commit });

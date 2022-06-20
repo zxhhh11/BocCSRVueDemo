@@ -8,7 +8,7 @@ const { params, query } = unref(currentRoute);
 const { path } = params;
 
 const _path = Array.isArray(path) ? path.join('/') : path;
-
+console.log({ path, _path, currentRoute });
 replace({
   path: '/' + _path,
   query

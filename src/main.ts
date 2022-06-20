@@ -1,23 +1,20 @@
 // import './styles/element/index.scss';
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 import 'element-plus/dist/index.css';
 import './mock';
 
-import * as ElIconModules from '@element-plus/icons';
-
 import App from './App.vue';
 import ElementPlus from 'element-plus';
+// import { IconPark } from '@/plugins/iconPark';
 import { createApp } from 'vue';
 import router from './router';
 import { store } from './store';
 
-interface IconType {
-  [key: string]: any;
-}
-const Module: IconType = ElIconModules;
 const app = createApp(App);
-for (let iconName in Module) {
-  app.component(iconName, Module[iconName]);
-}
-app.use(store).use(router).use(ElementPlus, { zIndex: 3000 }); //size: 'small',
+
+app.config.compilerOptions.isCustomElement = (tag) => tag === 'iconpark-icon';
+
+app.use(store).use(router).use(ElementPlus); // {size: 'small', zIndex: 3000 }
 app.mount('#app');
 // createApp(App).use(store).use(router).mount('#app');

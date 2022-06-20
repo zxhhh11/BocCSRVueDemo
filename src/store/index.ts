@@ -1,4 +1,4 @@
-import { UserState, UserStore, store as user } from '/@/store/modules/user';
+import { UserState, UserStore, store as user } from '@/store/modules/user';
 import { createLogger, createStore } from 'vuex';
 const debug = process.env.NODE_ENV !== 'production';
 
