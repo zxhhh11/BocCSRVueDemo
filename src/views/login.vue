@@ -2,7 +2,7 @@
 import { reactive, ref, unref } from 'vue';
 import { ElForm } from 'element-plus';
 // eslint-disable-next-line no-unused-vars
-import { User, Lock } from '@element-plus/icons';
+import { User, Lock } from '@element-plus/icons-vue';
 import { handleLogin } from '@/apis/user';
 import { useRouter } from 'vue-router';
 const state = reactive({ ruleForm: { username: '', pass: '' } });

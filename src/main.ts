@@ -1,6 +1,8 @@
 // import './styles/element/index.scss';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
+import './styles/iconfont/iconfont.js';
+import './styles/base.css';
 import 'element-plus/dist/index.css';
 import './mock';
 

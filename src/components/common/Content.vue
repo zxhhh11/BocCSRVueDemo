@@ -14,12 +14,15 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="content-test">
+  <div class="content-home">
     <router-view></router-view>
   </div>
 </template>
 <style scoped>
-.content-test div {
+.content-home {
+  height: 100%;
+}
+.content-home div {
   background: salmon;
   color: yellowgreen;
   font-size: 40px;
