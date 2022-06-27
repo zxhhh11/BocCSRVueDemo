@@ -15,8 +15,31 @@ import logoImg from '@/assets/images/head_logo.png';
 import avatarUrl from '@/assets/images/avatar.png';
 const store = useStore();
 const props = defineProps({
-  isCollapse: Boolean
+  // isCollapse: Boolean
 });
+const options = [
+  {
+    value: '选项1',
+    label: '黄金糕'
+  },
+  {
+    value: '选项2',
+    label: '双皮奶'
+  },
+  {
+    value: '选项3',
+    label: '蚵仔煎'
+  },
+  {
+    value: '选项4',
+    label: '龙须面'
+  },
+  {
+    value: '选项5',
+    label: '北京烤鸭'
+  }
+];
+
 const state = reactive({
   // logoImg: require('../assets/images/head_logo.png')
 });
@@ -405,6 +428,8 @@ onMounted(() => {});
   font-size: 12px;
 }
 .user-info {
+  height: 100%;
+  display: inline-block;
   .user-module {
     display: inline-block;
     height: 100%;

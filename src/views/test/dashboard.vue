@@ -17,10 +17,10 @@ const state = reactive({ num: 1, think: 5 });
 //     count.value = val - 1;
 //   }
 // });
-console.log(count.value, 'value');
+// console.log(count.value, 'value');
 watchEffect(() => {
   //只能获取到变化后的值
-  console.log(state.num, 'watch effect state.num');
+  // console.log(state.num, 'watch effect state.num');
 });
 // watch(
 //   () => state.num, //这里必须传入要用watch 观察的参数
@@ -31,7 +31,7 @@ watchEffect(() => {
 //   }
 // );
 onMounted(() => {
-  console.log(count.value, 'value 2');
+  // console.log(count.value, 'value 2');
   count.value++;
   // console.log(plusOne.value, 'b');
   // setInterval(() => {

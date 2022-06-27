@@ -43,15 +43,15 @@ module.exports = {
         return options;
       });
     config.module.rule('svg').exclude.add(resolve('src/assets/icons')).end();
-    config.module
-      .rule('vue')
-      .use('vue-loader')
-      .tap((options) => {
-        options.compilerOptions = options.compilerOptions || {};
-        options.compilerOptions.isCustomElement = (tag) =>
-          tag === 'iconpark-icon';
-        // modify the options...
-        return options;
-      });
+    // config.module
+    //   .rule('vue')
+    //   .use('vue-loader')
+    //   .tap((options) => {
+    //     options.compilerOptions = options.compilerOptions || {};
+    //     options.compilerOptions.isCustomElement = (tag) =>
+    //       tag === 'iconpark-icon';
+    //     // modify the options...
+    //     return options;
+    //   });
   }
 };

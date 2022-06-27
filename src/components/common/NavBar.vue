@@ -12,32 +12,138 @@ import // Menu as IconMenu,
 // Location as IconLocation
 // Search
 '@element-plus/icons-vue';
-import { defineProps, onMounted, computed, ref, defineExpose } from 'vue';
+import {
+  defineProps,
+  onMounted,
+  computed,
+  // ref,
+  defineExpose,
+  reactive
+} from 'vue';
+import router from '@/router/index';
 // import { routes } from '@/router/index';
 import { useRoute } from 'vue-router';
-import { mockRouters } from '@/utils/routers';
+import { originalMockRouters } from '@/utils/routers';
+interface RouteType {
+  value: string;
+  path: string;
+  address: string;
+  quickCheck: string;
+}
+// interface MenuType{
+//   value :RouteType[]
+// }
 const route = useRoute();
-const menuquery = ref(null);
-const focusFlag = ref(false);
+// const menuquery = ref(null);
+// const focusFlag = ref(false);
 const onRoutes = computed(() => {
   return route.path;
 });
+const menus: RouteType[] = [];
+const state = reactive({
+  obj: {
+    // reactive 里面最好再包含一个对象（也可以是多个对象，分别表示不同区域的数据）,这样才不会影响视图更新
+    allMenus: menus,
+    menuIpt: '',
+    mockRouters: originalMockRouters
+    // testNum: 1
+  },
+  obj2: {}
+});
 const props = defineProps({
-  isCollapse: Boolean
+  // isCollapse: Boolean
 });
 const handleOpen = (key: any, keyPath: any) => {
     //console.log(key, keyPath);
+    // state.obj.testNum = state.obj.testNum + 2;
   },
   handleClose = (key: any, keyPath: any) => {
     // console.log(key, keyPath);
+    // state.obj.testNum++;
   };
+const clearQuickQuery = () => {
+  state.obj.mockRouters = originalMockRouters;
+};
+const handleSelect = (item: any) => {
+  if (route.path === item.path) {
+    return;
+  }
+  if (item.path) {
+    const local = item.address.slice(0, 1);
+    state.obj.mockRouters = [originalMockRouters[local]];
+    router.push(item.path);
+    console.log(local, 'local', state.obj);
+  }
+};
+const querySearch = (queryString: any, cb: any) => {
+  var queryMenus = state.obj.allMenus;
+  const results = queryMenus.filter((item) => {
+    return item.quickCheck.toLowerCase().includes(queryString.toLowerCase());
+  });
+
+  cb(results);
+};
+const loadAll = () => {
+  return [
+    {
+      value: '仪表盘',
+      path: '/test/dashboard',
+      address: '0-0',
+      quickCheck: 'YBP'
+    },
+    // {
+    //   value: '组件传参',
+    //   path: '/test/emit',
+    //   address: '0-1',
+    //   quickCheck: 'ZJCC'
+    // },
+    {
+      value: '数据测试',
+      path: '/test/testData',
+      address: '0-1',
+      quickCheck: 'SJCE'
+    },
+    {
+      value: '演示模块一',
+      path: '/module1/subModule1',
+      address: '1-0',
+      quickCheck: 'YSMK'
+    },
+    {
+      value: '账单查询',
+      path: '/business/billQuery',
+      address: '2-0',
+      quickCheck: 'ZDCX'
+    },
+    {
+      value: '申请进度查询',
+      path: '/business/progressQuery',
+      address: '2-1',
+      quickCheck: 'SQJDCX'
+    },
+    {
+      value: '关联业务',
+      path: '/business/relatedBussiness',
+      address: '2-2',
+      quickCheck: 'GLYW'
+    },
+    {
+      value: '服务历史',
+      path: '/business/serviceHistory',
+      address: '2-3',
+      quickCheck: 'FWLS'
+    },
+
+    { value: '图表统计', path: '/charts', address: '3', quickCheck: 'TBTJ' }
+  ];
+};
 onMounted(() => {
-  console.log(menuquery.value, onRoutes, 'onRoutes');
+  state.obj.allMenus = loadAll();
 });
 defineExpose({
-  handleOpen,
-  menuquery,
-  focusFlag
+  handleOpen
+  // menuquery,
+  // focusFlag
 });
 </script>
 
@@ -45,45 +151,43 @@ defineExpose({
   <div class="side-box">
     <div class="search-menu">
       <el-autocomplete
+        id="quickSearch"
         popper-class="my-autocomplete"
-        v-model="state"
+        v-model="state.menuIpt"
         :fetch-suggestions="querySearch"
         placeholder="请输入内容"
         clearable
-        ref="menuquery"
+        :trigger-on-focus="false"
         @clear="clearQuickQuery"
         @select="handleSelect"
       >
         <template v-slot="{ item }">
           <div class="name">{{ item.value }}</div>
-          <!-- <span class="addr">{{ item.address }}</span> -->
         </template>
       </el-autocomplete>
     </div>
-
-    <el-aside :width="isCollapse ? '64px' : '200px'">
-      <!-- <div class="logo">
-      <img :src="isCollapse ? smallLogo : bigLogo" alt="BOC" />
-    </div> -->
+    <el-aside width="200px">
       <el-scrollbar wrap-class="scrollbar-wrapper">
         <el-menu
-          unique-opened
           :default-active="onRoutes"
           class="el-menu-vertical-demo"
-          :collapse="props.isCollapse"
           @open="handleOpen"
           @close="handleClose"
           router
         >
-          <template v-for="item in mockRouters">
+          <template v-for="item in state.obj.mockRouters">
             <template v-if="item.children">
               <el-sub-menu :index="item.path" :key="item.path">
                 <template #title>
-                  <iconpark-icon
+                  <!-- <iconpark-icon
                     class="custom-svg"
                     :name="item.icon"
-                  ></iconpark-icon>
-                  <span>{{ item?.title }}</span>
+                  ></iconpark-icon> -->
+                  <!-- <el-icon><Box /></el-icon> -->
+                  <svg class="icon" aria-hidden="true">
+                    <use :xlink:href="item.icon"></use>
+                  </svg>
+                  <span>&nbsp;{{ item?.title }}</span>
                 </template>
                 <template v-for="subItem in item.children">
                   <el-sub-menu
@@ -108,13 +212,16 @@ defineExpose({
             </template>
             <template v-else>
               <el-menu-item :index="item.path" :key="item.path">
-                <iconpark-icon
+                <svg class="icon" aria-hidden="true">
+                  <use :xlink:href="item.icon"></use>
+                </svg>
+                <!-- <iconpark-icon
                   :name="item.icon"
                   :color="
                     onRoutes.indexOf(item.path) !== -1 ? '#409eff' : '#303133'
                   "
-                ></iconpark-icon>
-                <template #title>{{ item?.title }}</template>
+                ></iconpark-icon> -->
+                <template #title>&nbsp;{{ item?.title }}</template>
               </el-menu-item>
             </template>
           </template>
@@ -135,7 +242,6 @@ defineExpose({
           </span>
 
           <span class="line unread-message">
-            <!-- <MailOutlined /> -->
             <i class="el-icon-message"></i>
             未读消息&nbsp;<h3>12</h3>&nbsp;条
           </span>
@@ -170,8 +276,16 @@ defineExpose({
   .el-menu {
     height: 100%;
     border-right: 0;
+    .el-sub-menu {
+      .el-menu-item {
+        height: 36px;
+        line-height: 36px;
+      }
+    }
     .el-sub-menu__title,
     .el-menu-item {
+      height: 40px;
+      line-height: 40px;
       iconpark-icon {
         margin-right: 6px;
       }
@@ -179,6 +293,11 @@ defineExpose({
     .el-menu-item {
       iconpark-icon {
         vertical-align: middle;
+      }
+      &.is-active {
+        background-color: #f5dcde;
+        color: #a71e32;
+        border-right: 2px solid #a71e32;
       }
     }
   }
@@ -200,7 +319,13 @@ defineExpose({
     }
   }
 }
-
+.el-menu-item:focus,
+.el-menu-item:hover,
+.el-menu .el-submenu__title:hover,
+.el-menu .el-submenu__title:focus {
+  color: #a71e32;
+  background-color: #fafafa;
+}
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
   flex: 1;
@@ -216,13 +341,17 @@ defineExpose({
   padding: 8px 6px 4px;
   width: 200px;
   box-sizing: border-box;
+  .el-input {
+    height: 40px;
+    line-height: 40px;
+  }
   .el-input--suffix {
     .el-input__inner {
-      padding-right: 30px;
-      border: 1px solid #409eff;
+      /* padding-right: 30px; */
+      /* border: 1px solid #409eff; */
       &:focus {
-        border-width: 2px;
-        box-shadow: 0 0 0 2px hwb(210deg 25% 0% / 20%);
+        /* border-width: 2px;
+        box-shadow: 0 0 0 2px hwb(210deg 25% 0% / 20%); */
       }
     }
   }

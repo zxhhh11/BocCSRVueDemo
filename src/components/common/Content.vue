@@ -21,6 +21,7 @@ export default defineComponent({
 <style scoped>
 .content-home {
   height: 100%;
+  background: #fff;
 }
 .content-home div {
   background: salmon;
