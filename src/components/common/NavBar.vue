@@ -111,28 +111,28 @@ const loadAll = () => {
     },
     {
       value: '账单查询',
-      path: '/business/billQuery',
+      path: '/bussiness/billQuery',
       address: '2-0',
       quickCheck: 'ZDCX'
     },
     {
       value: '申请进度查询',
-      path: '/business/progressQuery',
+      path: '/bussiness/progressQuery',
       address: '2-1',
       quickCheck: 'SQJDCX'
     },
     {
       value: '关联业务',
-      path: '/business/relatedBussiness',
+      path: '/bussiness/relatedBussiness',
       address: '2-2',
       quickCheck: 'GLYW'
     },
-    {
-      value: '服务历史',
-      path: '/business/serviceHistory',
-      address: '2-3',
-      quickCheck: 'FWLS'
-    },
+    // {
+    //   value: '服务历史',
+    //   path: '/bussiness/serviceHistory',
+    //   address: '2-3',
+    //   quickCheck: 'FWLS'
+    // },
 
     { value: '图表统计', path: '/charts', address: '3', quickCheck: 'TBTJ' }
   ];
@@ -179,11 +179,6 @@ defineExpose({
             <template v-if="item.children">
               <el-sub-menu :index="item.path" :key="item.path">
                 <template #title>
-                  <!-- <iconpark-icon
-                    class="custom-svg"
-                    :name="item.icon"
-                  ></iconpark-icon> -->
-                  <!-- <el-icon><Box /></el-icon> -->
                   <svg class="icon" aria-hidden="true">
                     <use :xlink:href="item.icon"></use>
                   </svg>
@@ -215,12 +210,6 @@ defineExpose({
                 <svg class="icon" aria-hidden="true">
                   <use :xlink:href="item.icon"></use>
                 </svg>
-                <!-- <iconpark-icon
-                  :name="item.icon"
-                  :color="
-                    onRoutes.indexOf(item.path) !== -1 ? '#409eff' : '#303133'
-                  "
-                ></iconpark-icon> -->
                 <template #title>&nbsp;{{ item?.title }}</template>
               </el-menu-item>
             </template>

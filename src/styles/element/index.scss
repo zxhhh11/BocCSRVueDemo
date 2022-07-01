@@ -2,7 +2,7 @@
 @forward "element-plus/theme-chalk/src/common/var.scss" with (
   $colors: (
     "primary": (
-      "base": #b50029,
+      "base": #409eff,
     ),
     'white': #ffffff,
     'black': #000000,
@@ -25,4 +25,257 @@
 );
 @import "element-plus/theme-chalk/src/index.scss";
 
+.icon {
+  width: 1.4em; height: 1.4em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+.card-title {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 1px 10px;
+  border-left: 2px solid #333;
+  text-align: left;
+  margin: 4px;
+  .add-info {
+    font-size: 0.7em;
+    font-weight: 400;
+  }
+ 
+}
 
+.el-tag {
+  background-color: #fff;
+  &.el-tag--blue{
+    border-color: #5470c6;
+    color: #5470c6;
+    &:hover{
+      color: #fff;
+      background-color:#5470c6;
+    }
+  }
+  &.el-tag--red{
+    border-color: #a71e32;
+    color: #a71e32;
+    &:hover{
+      color: #fff;
+      background-color: #a71e32;
+    }
+  }
+  &.el-tag--green{
+    border-color: #91cc75;
+    color: #91cc75;
+    &:hover{
+      color: #fff;
+      background-color:#91cc75;
+    }
+  }
+  &.el-tag--yellow{
+    border-color: #fac858;
+  color: #fac858;
+  &:hover{
+    color: #fff;
+    background-color:#fac858;
+  }
+  }
+  &.el-tag--pink{
+    border-color: #ee6666;
+    color: #ee6666;
+    &:hover{
+      color: #fff;
+      background-color:#ee6666;
+    }
+  }
+  &.el-tag--lightblue{
+    border-color: #73c0de;
+    color: #73c0de;
+    &:hover{
+      color: #fff;
+      background-color:#73c0de;
+    }
+  }
+  &.el-tag--lightgreen{
+    border-color: #3ba272;
+  color: #3ba272;
+  &:hover{
+    color: #fff;
+    background-color:#3ba272;
+  }
+  }
+  &.el-tag--orange{
+    border-color: #fc8452;
+    color: #fc8452;
+    &:hover{
+      color: #fff;
+      background-color:#fc8452;
+    }
+  }
+ 
+  &.el-tag--lightpink{
+    border-color: #ea7ccc;
+  color: #ea7ccc;
+    &:hover{
+      color: #fff;
+      background-color:#ea7ccc;
+    }
+  }
+  &.el-tag--no{
+    border-color: transparent;
+    color: #303133;
+    &:hover{
+      background-color:#fff;
+    }
+  }
+  &.el-tag--purple{
+    border-color: #9a60b4;
+    color: #9a60b4;
+    &:hover{
+      color: #fff;
+      background-color:#9a60b4;
+    }
+  }
+  &.el-tag--small{
+    height: auto;
+    line-height: normal;
+    white-space: normal;
+  }
+ 
+}
+.el-descriptions--mini.is-bordered .el-descriptions-item__cell{
+  padding: 3px 10px;
+}
+b.custom-link{
+  color: #1890ff;
+  font-size: 14px;
+  text-decoration: underline;
+  font-weight: bolder;
+  cursor: pointer;
+  &:hover{
+    color: #096dd9;
+  }
+}
+.el-tabs--card>.el-tabs__header .el-tabs__item{
+  transition: none; //解决页面左侧切换tab 时文字颜色出现闪动
+}
+.el-dialog {
+  .el-dialog__header{
+    border-bottom: 1px solid #f0f0f0;
+    text-align: left;
+  }
+  .el-dialog__footer{
+    padding: 10px;
+    border-top: 1px solid #f0f0f0;
+  }
+}
+.el-card{
+  color: #1f2f3d;
+  p{
+    color: #5e6d82;
+    font-size: 0.7em;
+  }
+}
+.el-descriptions__header {
+  margin: 6px 0;
+  .el-descriptions__title {
+    border-left: 2px solid #333;
+    padding: 0 10px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+}
+.common-title{
+    font-size: 14px;
+    font-weight: 600;
+    padding: 0px 10px;
+    border-left: 3px solid #333;
+    margin: 8px 0 4px;
+    .add-info {
+      font-size: 0.7em;
+      font-weight: 400;
+    }
+
+}
+
+.el-table--small .el-table__cell{
+  padding: 2px 0;
+}
+.el-table th.el-table__cell{
+  background-color: #f5f6f6;
+}
+.el-descriptions-item__label.is-bordered-label{
+  background: #f5f6fa;
+}
+.el-table th.el-table__cell{
+  background: #f5f6fa;
+}
+.el-button--red {
+  color: #FFF;
+  background-color: #a71e32;
+  border-color: #a71e32;
+  &:focus,&:hover{
+    background: #a71e32;
+    border-color: #a71e32;
+    color: #FFF;
+  }
+  &.is-plain{
+    color: #a71e32; 
+    background: #fff;
+    border-color: #a71e32;
+    &:focus,&:hover{
+      background: #a71e32;
+      border-color: #a71e32;
+      color: #FFF;
+    }
+  }
+}
+.el-button--green{
+  background-color: #95de64;
+  border-color: #73d13d;
+  color: #fff;
+  &:hover,&:focus{
+    background-color: #73d13d;
+    color: #fff;
+  }
+}
+.el-button--orange{
+  background-color: #ff7a45;
+  border-color: #fa541c;
+  color: #fff;
+  &:hover,&:focus{
+    background-color: #fa541c;
+    color: #fff;
+  }
+}
+.custom-message {
+  color: #a71e32;
+  font-size: 14px;
+  font-weight: 600;
+  text-indent: 10px;
+}
+.el-table th.el-table__cell>.cell{
+  padding-right: 0;
+}
+.el-date-editor.el-input, .el-date-editor.el-input__inner{
+  width: 100%;
+}
+.el-main .el-col,.el-main .el-row{
+// height: auto;
+}
+
+.el-descriptions__body .el-descriptions__table.is-bordered .el-descriptions__cell{
+  padding: 2px 10px;
+  font-size: 12px;
+}
+.el-descriptions__label.el-descriptions__cell.is-bordered-label{
+  color: #909399;
+}
+.el-descriptions__content.el-descriptions__cell.is-bordered-content{
+  color: #606266;
+}
+.el-tabs--card > .el-tabs__header{
+  height: 41px;
+}
+.hide{
+  display: none;
+}

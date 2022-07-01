@@ -11,17 +11,24 @@ import {
   reactive,
   onUnmounted
 } from 'vue';
+import { messageList } from '@/utils/data';
+import CardInfo from '@/components/CardInfo.vue';
+import CustomerInfo from '@/components/CustomerInfo.vue';
 // const isCollapse = ref(null);
 // const nav: Ref<null> = ref();
 const triggerMenu = () => {
   // isCollapse.value = !isCollapse.value;
 };
-const state = reactive({
+const data = reactive({
+  common: {
+    activeName: 'second',
+    messageList,
+    animationUp: false
+  }
   // logoImg: require('../assets/images/head_logo.png')
 });
 const handleKeyDown = (e: any) => {
   if (e.keyCode === 122) {
-    console.log(122, e);
     e.preventDefault(); // 阻止默认事件
     e.stopPropagation(); // 阻止冒泡事件
     e.cancelBubble = true;
@@ -35,37 +42,44 @@ const handleKeyDown = (e: any) => {
 };
 window.addEventListener('keydown', handleKeyDown, true);
 const keyDown = () => {
-  document.onkeydown = (e) => {
-    console.log(e, 'e');
-    //事件对象兼容
-    // let e1 = e || window.event || arguments.callee.caller.arguments[0]
-    let e1 = e || window.event;
-    let key = Number(e1.keyCode);
-    if ((e1 && key > 47 && key < 58) || (key > 64 && key < 91)) {
-      const inputs = document.getElementsByTagName('input');
-      const textAreas = document.getElementsByTagName('textarea');
-      let allIpts = [...inputs, ...textAreas];
-      let isFocusFlag = false;
-      for (let i = 0; i < allIpts.length; i++) {
-        if (allIpts[i] == document.activeElement) {
-          isFocusFlag = true;
-          break;
+    document.onkeydown = (e) => {
+      console.log(e, 'e');
+      //事件对象兼容
+      // let e1 = e || window.event || arguments.callee.caller.arguments[0]
+      let e1 = e || window.event;
+      let key = Number(e1.keyCode);
+      if ((e1 && key > 47 && key < 58) || (key > 64 && key < 91)) {
+        const inputs = document.getElementsByTagName('input');
+        const textAreas = document.getElementsByTagName('textarea');
+        let allIpts = [...inputs, ...textAreas];
+        let isFocusFlag = false;
+        for (let i = 0; i < allIpts.length; i++) {
+          if (allIpts[i] == document.activeElement) {
+            isFocusFlag = true;
+            break;
+          }
+        }
+        if (!isFocusFlag) {
+          document.getElementById('quickSearch')?.focus();
+          console.log(222, 'quickSearch2');
         }
       }
-      // console.log(document.getElementById('quickSearch'), 'quickSearch1');
-      if (!isFocusFlag) {
-        document.getElementById('quickSearch')?.focus();
-        console.log(222, 'quickSearch2');
-        // console.log(nav, 'ref');
-        // nav.value.focusFlag = true;
-        // nav.value.menuquery.value.focus();
-        // ref.nav.$refs.menuquery.focus();
-      }
-    }
+    };
+  },
+  scrollAnimate = () => {
+    data.common.animationUp = true;
+    setTimeout(() => {
+      let arr = { ...data.common.messageList };
+      data.common.messageList.push(arr[0]);
+      data.common.messageList.push(arr[1]);
+      data.common.messageList.shift();
+      data.common.messageList.shift();
+      data.common.animationUp = false;
+    }, 1000);
   };
-};
 onMounted(() => {
   keyDown(); // 监听键盘
+  const timer = setInterval(scrollAnimate, 3000);
 });
 onUnmounted(() => {
   window.removeEventListener('keydown', handleKeyDown, true);
@@ -101,16 +115,16 @@ onUnmounted(() => {
                      @click="handleCollapse"></i>
                 </span> -->
                 <el-tabs
-                  v-model="activeName"
+                  v-model="data.common.activeName"
                   type="card"
                   @tab-click="handleClick"
                   class="left-tabs"
                 >
                   <el-tab-pane label="客户信息区" name="first">
-                    <!-- <CustomerInfo /> -->CustomerInfo
+                    <CustomerInfo />
                   </el-tab-pane>
                   <el-tab-pane label="卡信息区" name="second">
-                    <!-- <CardInfo /> -->CardInfo
+                    <CardInfo />
                   </el-tab-pane>
                 </el-tabs>
               </div>
@@ -125,9 +139,12 @@ onUnmounted(() => {
                         <!-- <div class="grid-content bg-purple"> -->
                         <ul
                           class="announcement-list"
-                          :class="{ 'animation-up': animationUp }"
+                          :class="{ 'animation-up': data.common.animationUp }"
                         >
-                          <li v-for="(item, index) in messageList" :key="index">
+                          <li
+                            v-for="(item, index) in data.common.messageList"
+                            :key="index"
+                          >
                             {{ item }}
                           </li>
                         </ul>
@@ -248,6 +265,7 @@ body {
     // height: calc(100% - 108px);
     height: 100%;
     background: #fff;
+    padding-top: 6px;
   }
   .right-bottom {
     height: 48px;
@@ -269,6 +287,7 @@ body {
   color: #fff;
   background: #ee6666;
   border-radius: 6px;
+  text-align: left;
   ul {
     width: 100%;
     height: 100%;
@@ -289,5 +308,9 @@ body {
       -42px
     ); //TODO: 如果每个li 的高度不固定的时候这里应该换成 计算后的行高
   }
+}
+.el-tabs--card > .el-tabs__header .el-tabs__item {
+  /*解决页面左侧切换tab 时文字颜色出现闪动 */
+  transition: none;
 }
 </style>

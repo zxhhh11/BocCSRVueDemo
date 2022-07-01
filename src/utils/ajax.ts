@@ -12,12 +12,12 @@ function requestHandle(params: AxiosRequestConfig<any>) {
     axios(params)
       .then((res) => {
         if (res.data) {
-          if (res.status === 200) {
+          if (res.data.status === 200) {
             resolve({
-              data: res.data ? res.data : null
+              data: res.data.data ? res.data.data : null // TODO: 后续接口返回数据形式固定后需再修改
             });
           } else if (res.status === 20122) {
-            window.alert('无操作权限');
+            reject(new Error('请求有误，请核对信息后重试'));
           } else {
             if (res.status === 20121) {
               try {
@@ -70,9 +70,11 @@ function getHeaders(options: any) {
     options
   );
 
+  headers.Authentication =
+    'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJtZWV0aW5nIiwiaXNzIjoiS3lpYmlKUylPTyIsIm9wcklkIjoiMTAwNDA1NzgiLCJleHAiOjE2NDMyNjk1NTYsInVzZXJJZCI6Im1hb3h5LWIiLCJpYXQiOjE2NDMyNjY5NjR9.-GGG9KivBh9xvi6xcqJjG5JHReA0qpXj1PR3fL_4yTY';
   // const token = getSessionStorage('auth_token');
   // if (token) {
-  //   headers.Authorization = token;
+  //   headers.Authentication = token;
   // }
   return headers;
 }
@@ -99,7 +101,8 @@ export default {
     });
   },
   serverUrl(apiName: any) {
-    return `/api${apiName}`;
+    // return `/api${apiName}`;
+    return apiName;
   },
   serverUrlMock(apiName: any) {
     return apiName;

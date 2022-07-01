@@ -31,31 +31,31 @@ export const originalMockRouters = [
     ]
   },
   {
-    path: '/business',
+    path: '/bussiness',
     title: '演示模块二',
-    name: 'business',
+    name: 'bussiness',
     icon: '#icon-icons_bussiness',
     children: [
       {
-        path: '/business/billQuery',
+        path: '/bussiness/billQuery',
         title: '账单查询',
         name: 'billQuery'
       },
       {
-        path: '/business/progressQuery',
+        path: '/bussiness/progressQuery',
         title: '申请进度查询',
         name: 'progressQuery'
       },
       {
-        path: '/business/relatedBussiness',
+        path: '/bussiness/relatedBussiness',
         title: '关联业务',
         name: 'relatedBussiness'
-      },
-      {
-        path: '/business/serviceHistory',
-        title: '服务历史',
-        name: 'serviceHistory'
       }
+      // {
+      //   path: '/bussiness/serviceHistory',
+      //   title: '服务历史',
+      //   name: 'serviceHistory'
+      // }
     ]
   },
   {

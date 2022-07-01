@@ -89,12 +89,3 @@ div,ul,li,ol,li,span,a,b,h1,h2,h3,h4,h5,main,section,header,aside{
 box-sizing: border-box;
 }
 
-.icon {
-    width: 1.4em; height: 1.4em;
-    vertical-align: -0.15em;
-    fill: currentColor;
-    overflow: hidden;
-  }
-
-
-

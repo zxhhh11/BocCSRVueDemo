@@ -1,6 +1,5 @@
 <template>
-  <div
-    >module2
+  <div>
     <router-view></router-view>
   </div>
 </template>

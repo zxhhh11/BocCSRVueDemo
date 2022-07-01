@@ -1,50 +1,62 @@
-import { arrayFind } from './util';
+// import { arrayFind } from './util'
+// import { getMenu } from './permission'
 
 const users = [
   {
     id: 1,
     username: 'admin',
     password: 'admin',
-    name: 'Vue Master'
+    name: 'Vue Master',
+    role: 'admin'
   },
   {
     id: 2,
     username: 'user1',
     password: 'password',
-    name: 'User One'
+    name: 'User One',
+    role: 'common'
   }
 ];
 
 export default {
   'post|/auth-center/jwt/login': (options) => {
-    let accessToken = '';
-    let status = 401;
+    let accessToken = '',
+      status = 401,
+      role = '',
+      name2 = '',
+      message = '';
     const user = JSON.parse(options.body);
     for (let i = 0; i < users.length; i++) {
       if (
         users[i]['username'] === user['username'] &&
         users[i]['password'] === user['password']
       ) {
-        accessToken =
-          'eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJkMTAxNDY4YWNhZjM0ZGRhYmFjOTY0NmQyZDkyMDExMyIsImlkIjoiZDEwMTQ2OGFjYWYzNGRkYWJhYzk2NDZkMmQ5MjAxMTMiLCJjb2RlIjoiYWRtaW4iLCJuYW1lIjoi6LaF57qn566h55CG5ZGYIiwiZXhwIjoxNTcxOTg4MzkwfQ.etLx6wELsJwWAHn8fxgz4qLjfuuPHlMiZpc1d2eULt1zpIdIEZulljbSreOcf60mUsNB_yXTHeJR6-tMAYB9hIRNy6-UeKipJ12xxv4S-3JLg7NceQ84-N30IA6RaODAPTk6YyZ5DGUyWmvGJGlYY0f0JR304c41twgJ1zfgwCI';
+        accessToken = 'longtimenoseeIamdyingtoseeyou';
         status = 200;
+        role = users[i]['role'];
+        name2 = users[i]['name'];
+        message = 'success';
         break;
       }
     }
     return {
       status: status,
-      message: 'success',
+      message: message,
       data: {
         state: 20101,
-        accessToken
+        accessToken,
+        // menuTree: getMenu(),
+        userInfo: {
+          role: role,
+          name: name2
+        }
       }
     };
   },
   'get|/auth-center/jwt/authVerify': (options) => {
-    console.log({ options });
     const params = 'longtimenoseeIamdyingtoseeyou-1';
     const userId = parseInt(params.split('-')[1]);
-    const user = arrayFind(users, 'id', userId);
+    // const user = arrayFind(users, 'id', userId)
     user.name = user.username;
     return {
       status: user ? 200 : 404,

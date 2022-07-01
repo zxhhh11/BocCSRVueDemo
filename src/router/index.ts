@@ -78,60 +78,60 @@ export const routes = [
         ]
       },
       {
-        path: '/business',
-        name: 'business',
+        path: '/bussiness',
+        name: 'bussiness',
         meta: {
           title: '演示模块二'
         },
         icon: 'data-file',
         component: () =>
           import(
-            /* webpackChunkName: "dashboard" */ '@/views/business/index.vue'
+            /* webpackChunkName: "dashboard" */ '@/views/bussiness/index.vue'
           ),
-        redirect: '/business/billQuery',
+        redirect: '/bussiness/billQuery',
         children: [
           {
-            path: '/business/billQuery',
+            path: '/bussiness/billQuery',
             name: 'billQuery',
             meta: {
               title: '账单查询'
             },
             component: () =>
               import(
-                /* webpackChunkName: "dashboard" */ '@/views/business/billQuery.vue'
+                /* webpackChunkName: "dashboard" */ '@/views/bussiness/billQuery.vue'
               )
           },
           {
-            path: '/business/progressQuery',
+            path: '/bussiness/progressQuery',
             name: 'progressQuery',
             meta: {
               title: '申请进度查询'
             },
             component: () =>
               import(
-                /* webpackChunkName: "dashboard" */ '@/views/business/progressQuery.vue'
+                /* webpackChunkName: "dashboard" */ '@/views/bussiness/progressQuery.vue'
               )
           },
           {
-            path: '/business/relatedBussiness',
+            path: '/bussiness/relatedBussiness',
             name: 'relatedBussiness',
             meta: {
               title: '关联业务'
             },
             component: () =>
               import(
-                /* webpackChunkName: "dashboard" */ '@/views/business/relatedBussiness.vue'
+                /* webpackChunkName: "dashboard" */ '@/views/bussiness/relatedBussiness.vue'
               )
           },
           {
-            path: '/business/serviceHistory',
+            path: '/bussiness/serviceHistory',
             name: 'serviceHistory',
             meta: {
               title: '服务历史'
             },
             component: () =>
               import(
-                /* webpackChunkName: "dashboard" */ '@/views/business/serviceHistory.vue'
+                /* webpackChunkName: "dashboard" */ '@/views/bussiness/serviceHistory/index.vue'
               )
           }
         ]
