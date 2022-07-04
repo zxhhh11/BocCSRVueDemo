@@ -18,7 +18,8 @@ import {
   computed,
   // ref,
   defineExpose,
-  reactive
+  reactive,
+  toRefs
 } from 'vue';
 import router from '@/router/index';
 // import { routes } from '@/router/index';
@@ -40,16 +41,13 @@ const onRoutes = computed(() => {
   return route.path;
 });
 const menus: RouteType[] = [];
-const state = reactive({
-  obj: {
-    // reactive 里面最好再包含一个对象（也可以是多个对象，分别表示不同区域的数据）,这样才不会影响视图更新
-    allMenus: menus,
-    menuIpt: '',
-    mockRouters: originalMockRouters
-    // testNum: 1
-  },
-  obj2: {}
+const data = reactive({
+  allMenus: menus,
+  menuIpt: '',
+  mockRouters: originalMockRouters
+  // testNum: 1
 });
+let { allMenus, menuIpt, mockRouters } = toRefs(data);
 const props = defineProps({
   // isCollapse: Boolean
 });
@@ -62,7 +60,7 @@ const handleOpen = (key: any, keyPath: any) => {
     // state.obj.testNum++;
   };
 const clearQuickQuery = () => {
-  state.obj.mockRouters = originalMockRouters;
+  mockRouters.value = originalMockRouters;
 };
 const handleSelect = (item: any) => {
   if (route.path === item.path) {
@@ -70,13 +68,12 @@ const handleSelect = (item: any) => {
   }
   if (item.path) {
     const local = item.address.slice(0, 1);
-    state.obj.mockRouters = [originalMockRouters[local]];
+    mockRouters.value = [originalMockRouters[local]];
     router.push(item.path);
-    console.log(local, 'local', state.obj);
   }
 };
 const querySearch = (queryString: any, cb: any) => {
-  var queryMenus = state.obj.allMenus;
+  var queryMenus = allMenus.value;
   const results = queryMenus.filter((item) => {
     return item.quickCheck.toLowerCase().includes(queryString.toLowerCase());
   });
@@ -138,7 +135,7 @@ const loadAll = () => {
   ];
 };
 onMounted(() => {
-  state.obj.allMenus = loadAll();
+  allMenus.value = loadAll();
 });
 defineExpose({
   handleOpen
@@ -153,7 +150,7 @@ defineExpose({
       <el-autocomplete
         id="quickSearch"
         popper-class="my-autocomplete"
-        v-model="state.menuIpt"
+        v-model="menuIpt"
         :fetch-suggestions="querySearch"
         placeholder="请输入内容"
         clearable
@@ -175,7 +172,7 @@ defineExpose({
           @close="handleClose"
           router
         >
-          <template v-for="item in state.obj.mockRouters">
+          <template v-for="item in mockRouters">
             <template v-if="item.children">
               <el-sub-menu :index="item.path" :key="item.path">
                 <template #title>

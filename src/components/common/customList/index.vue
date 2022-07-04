@@ -28,7 +28,12 @@ export default {
             {{ item.label }}
           </template>
           <template v-if="item.isTag">
-            <el-tag size="small" :type="item.type"> {{ item.value }}</el-tag>
+            <el-tag
+              size="small"
+              :class="['card-status', 'card-type-' + item.type]"
+            >
+              {{ item.value }}</el-tag
+            >
           </template>
           <template v-else> {{ item.value }}</template>
         </el-descriptions-item>

@@ -6,7 +6,7 @@ export default {
 
 <script lang="ts" setup>
 import { highCardList, generalCardList, ppCardList } from '@/utils/data';
-import { ref, reactive, onMounted } from 'vue';
+import { ref, reactive, onMounted, toRef, toRefs } from 'vue';
 import { accountDetail, cardDetail } from '@/utils/data';
 import BaseModal from '@/components/common/modal/index.vue';
 const accountData = [
@@ -31,24 +31,29 @@ const accountData = [
     mainLand: '(北京)4110142 '
   }
 ];
-interface DataType {
-  common: any;
-  list: any;
-}
-const searchCard = ref('');
-const data: DataType = reactive({
-  common: {
-    // searchCard: '',
-    accountVisiable: false,
-    cardVisiable: false
-  },
-  list: {
-    highCardList,
-    generalCardList,
-    ppCardList,
-    accountData
-  }
+// interface DataType {
+//   common: any;
+//   list: any;
+// }
+
+const data: any = reactive({
+  searchCard: '',
+  accountVisiable: false,
+  cardVisiable: false,
+  highLists: highCardList,
+  generalLists: generalCardList,
+  ppLists: ppCardList,
+  accountDatas: accountData
 });
+let {
+  accountVisiable,
+  searchCard,
+  cardVisiable,
+  highLists,
+  generalLists,
+  ppLists,
+  accountDatas
+} = toRefs(data);
 onMounted(() => {
   console.log('render-huihui');
 });
@@ -56,16 +61,17 @@ const showCardDetail = (index: number, row: any) => {
     showAccountDialog();
   },
   showAccountDialog = () => {
-    data.common.accountVisiable = true;
+    console.log({ accountVisiable });
+    accountVisiable.value = true;
   },
   hideAccountDialog = () => {
-    data.common.accountVisiable = false;
+    accountVisiable.value = false;
   },
   hideCardDialog = () => {
-    data.common.cardVisiable = false;
+    cardVisiable.value = false;
   },
   showCardDialog = (item: any) => {
-    data.common.cardVisiable = true;
+    cardVisiable.value = true;
   };
 </script>
 
@@ -91,12 +97,15 @@ const showCardDetail = (index: number, row: any) => {
       <div class="card-title">
         高端产品卡列表 <span class="add-info">(共8个卡片)</span></div
       >
-      <template v-for="(item, key) in data.list.highCardList" :key="key">
+      <template v-for="(item, key) in highLists" :key="key">
         <el-card shadow="hover" class="card-item">
           <template #header>
             <div class="clearfix custom-card-header">
               <div class="title">{{ item.title }}</div>
-              <el-tag size="small" class="card-status" :type="item.type">
+              <el-tag
+                size="small"
+                :class="['card-status', 'card-type-' + item.type]"
+              >
                 {{ item.typeDetail }}</el-tag
               >
             </div>
@@ -126,12 +135,15 @@ const showCardDetail = (index: number, row: any) => {
       <div class="card-title">
         普通产品列表 <span class="add-info">(共3个卡片)</span></div
       >
-      <template v-for="(item, key) in data.list.generalCardList" :key="key">
+      <template v-for="(item, key) in generalLists" :key="key">
         <el-card shadow="hover" class="card-item">
           <template #header>
             <div class="clearfix custom-card-header">
               <div class="title">{{ item.title }}</div>
-              <el-tag size="small" class="card-status" :type="item.type">
+              <el-tag
+                size="small"
+                :class="['card-status', 'card-type-' + item.type]"
+              >
                 {{ item.typeDetail }}</el-tag
               >
             </div>
@@ -161,12 +173,15 @@ const showCardDetail = (index: number, row: any) => {
       <div class="card-title">
         PP龙腾产品列表 <span class="add-info">(共1个卡片)</span></div
       >
-      <template v-for="(item, key) in data.list.ppCardList" :key="key">
+      <template v-for="(item, key) in ppLists" :key="key">
         <el-card shadow="hover" class="card-item">
           <template #header>
             <div class="clearfix custom-card-header">
               <div class="title">{{ item.title }}</div>
-              <el-tag size="small" class="card-status" :type="item.type">
+              <el-tag
+                size="small"
+                :class="['card-status', 'card-type-' + item.type]"
+              >
                 {{ item.typeDetail }}</el-tag
               >
             </div>
@@ -193,12 +208,7 @@ const showCardDetail = (index: number, row: any) => {
         </el-card>
       </template>
       <div class="card-title"> 账户信息列表</div>
-      <el-table
-        :data="data.list.accountData"
-        border
-        size="small"
-        style="width: 100%"
-      >
+      <el-table :data="accountDatas" border size="small" style="width: 100%">
         <el-table-column prop="currency" label="币种" width="60">
           <template #default="scope">
             <b
@@ -220,7 +230,7 @@ const showCardDetail = (index: number, row: any) => {
       </el-table>
     </div>
     <BaseModal
-      :dialogVisiable="data.common.accountVisiable"
+      :dialogVisiable="accountVisiable"
       @hide-dialog="hideAccountDialog"
       title="账户详细信息"
       cancelText="关闭"
@@ -242,7 +252,7 @@ const showCardDetail = (index: number, row: any) => {
       </el-descriptions>
     </BaseModal>
     <BaseModal
-      :dialogVisiable="data.common.cardVisiable"
+      :dialogVisiable="cardVisiable"
       @hide-dialog="hideCardDialog"
       title="卡详细信息"
       width="50%"

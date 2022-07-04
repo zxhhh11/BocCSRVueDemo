@@ -8,22 +8,22 @@ export default {
     <el-row>
       <el-col :span="6">
         <div class="grid-content bg-purple">
-          <CustomTimeline :timelineData="timelineData"></CustomTimeline>
+          <CustomTimeline :timelineData="timelineDatas"></CustomTimeline>
         </div>
       </el-col>
       <el-col :span="18">
         <div class="grid-content bg-purple-light timeline">
           <CustomList
-            :list="callDetail"
+            :list="callDetails"
             title="呼叫详情"
             labelClassName="label-width-100"
             :column="2"
             :span="1"
           ></CustomList>
           <BaseTable
-            :tableData="data.common.historyList"
-            :total="data.common.listTotal"
-            :currentPage="data.common.currentPage"
+            :tableData="historyList"
+            :total="listTotal"
+            :currentPage="currentPage"
             :hasPagination="true"
             :handleClick="handleClick"
             :isMutiSelect="false"
@@ -36,14 +36,14 @@ export default {
       </el-col>
     </el-row>
     <CustomModal
-      :dialogVisiable="data.common.cardVisiable"
+      :dialogVisiable="cardVisiable"
       @hide-dialog="hideCardDialog"
       title="信用卡对账单信息"
       cancelText="关闭"
       :hasConfirm="false"
       width="30%"
     >
-      <CustomList :list="callListDetail" :column="2" :span="1"></CustomList>
+      <CustomList :list="callListDetails" :column="2" :span="1"></CustomList>
     </CustomModal>
   </div>
 </template>
@@ -56,29 +56,44 @@ import CustomModal from '@/components/common/modal/index.vue';
 // import ColumnRender from '../custom/CustomTable/column-render';
 import BaseTable from '@/components/common/baseTable/index.vue';
 import { getHistoryListAPI } from '@/apis/history';
-import { defineProps, onMounted, defineEmits, reactive, ref } from 'vue';
+import {
+  defineProps,
+  onMounted,
+  defineEmits,
+  reactive,
+  ref,
+  toRefs
+} from 'vue';
 
 let data = reactive({
-  common: {
-    timelineData,
-    callDetail,
-    historyList: [],
-    cardVisiable: false,
-    callListDetail,
-    hiddenAuthBtn: true,
-    hiddenDelAuthBtn: false,
-    currentPage: 1,
-    listTotal: 0
-  }
+  timelineDatas: timelineData,
+  callDetails: callDetail,
+  historyList: [],
+  cardVisiable: false,
+  callListDetails: callListDetail,
+  hiddenAuthBtn: true,
+  hiddenDelAuthBtn: false,
+  currentPage: 1,
+  listTotal: 0
 });
-
+let {
+  timelineDatas,
+  callDetails,
+  historyList,
+  cardVisiable,
+  callListDetails,
+  hiddenAuthBtn,
+  hiddenDelAuthBtn,
+  currentPage,
+  listTotal
+} = toRefs(data);
 onMounted(() => {
   getHistoryList({ currentPage: 1, part: 'h400' });
 });
 
 const handleCurrent = (val: any) => {
     getHistoryList({ currentPage: val, part: 'h400' });
-    data.common.currentPage = val;
+    currentPage.value = val;
   },
   handleClick = (row: any, column: any, $index: any) => {
     // console.log(row, column, $index)
@@ -86,15 +101,15 @@ const handleCurrent = (val: any) => {
   getHistoryList = (params: any) => {
     getHistoryListAPI(params).then((res: any) => {
       console.log(res, 'res getHistoryListAPI');
-      data.common.historyList = res.data.rows;
-      data.common.listTotal = res.data.total;
+      historyList.value = res.data.rows;
+      listTotal.value = res.data.total;
     });
   },
   showDetail = (record: any) => {
-    data.common.cardVisiable = true;
+    cardVisiable.value = true;
   },
   hideCardDialog = () => {
-    data.common.cardVisiable = false;
+    cardVisiable.value = false;
   },
   assetAuth = () => {
     // console.log('assetAuth')
@@ -208,7 +223,8 @@ const handleCurrent = (val: any) => {
         prop: 'serviceType',
         dataIndex: 'serviceType',
         label: '服务种类',
-        sortable: true
+        sortable: true,
+        width: 160
       }
       // {
       //   index: 6, prop: 'actions', dataIndex: 'actions', label: '操作二',

@@ -15,22 +15,22 @@ export default {
         <el-input
           placeholder="请在此处输入信用卡号"
           size="small"
-          v-model="data.common.creditCardNo"
+          v-model="creditCardNo"
           clearable
         >
         </el-input>
       </el-descriptions-item>
-      <el-descriptions-item :labelStyle="{ display: 'none' }">
+      <el-descriptions-item label-class-name="hide">
         <el-button type="primary" size="small" @click="queryClick" round
           >查询</el-button
         >
       </el-descriptions-item>
     </el-descriptions>
-    <div v-if="data.common.showResult">
+    <div v-if="showResult">
       <BaseTable
-        :tableData="data.common.historyList"
-        :total="data.common.listTotal"
-        :currentPage="data.common.currentPage"
+        :tableData="historyList"
+        :total="listTotal"
+        :currentPage="currentPage"
         :hasPagination="true"
         :handleClick="handleClick"
         :isMutiSelect="false"
@@ -44,35 +44,42 @@ export default {
 <script lang="ts" setup>
 import BaseTable from '@/components/common/baseTable/index.vue';
 import CustomList from '@/components/common/customList/index.vue';
-import { defineProps, onMounted, defineEmits, reactive, ref } from 'vue';
+import {
+  defineProps,
+  onMounted,
+  defineEmits,
+  reactive,
+  ref,
+  toRefs
+} from 'vue';
 import { getHistoryListAPI } from '@/apis/history';
 let data = reactive({
-  common: {
-    currentPage: 1,
-    listTotal: 0,
-    historyList: [],
-    creditCardNo: '',
-    showResult: false
-  }
+  currentPage: 1,
+  listTotal: 0,
+  historyList: [],
+  creditCardNo: '',
+  showResult: false
 });
+let { currentPage, listTotal, historyList, creditCardNo, showResult } =
+  toRefs(data);
 // onMounted(() => {
 //   getHistoryList({ currentPage: 1, part: 'branch' });
 // });
 
 const queryClick = () => {
-    data.common.showResult = true;
+    showResult.value = true;
     getHistoryList({ currentPage: 1, part: 'branch' });
   },
   getHistoryList = (params: any) => {
     getHistoryListAPI(params).then((res: any) => {
-      data.common.historyList = res.data.rows;
-      data.common.listTotal = res.data.total;
+      historyList.value = res.data.rows;
+      listTotal.value = res.data.total;
     });
   },
   handleClick = () => {},
   handleCurrent = (val: any) => {
     getHistoryList({ currentPage: val, part: 'branch' });
-    data.common.currentPage = val;
+    currentPage.value = val;
   },
   columns = () => {
     return [
@@ -103,7 +110,8 @@ const queryClick = () => {
         prop: 'time',
         dataIndex: 'time',
         label: '时间',
-        sortable: true
+        sortable: true,
+        width: 180
       },
       {
         index: 4,

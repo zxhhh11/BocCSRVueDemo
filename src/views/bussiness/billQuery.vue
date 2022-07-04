@@ -24,7 +24,7 @@ export default {
         <el-input
           placeholder="请在此处输入信用卡号"
           size="small"
-          v-model="data.common.creditCardNo"
+          v-model="creditCardNo"
           clearable
         >
         </el-input>
@@ -35,11 +35,11 @@ export default {
         >
       </el-descriptions-item>
     </el-descriptions>
-    <div v-if="data.common.billListVisiable">
+    <div v-if="billListVisiable">
       <div class="card-title">账期列表 </div>
       <div class="cst-new-card">
         <el-tooltip
-          v-for="(item, key) in billList"
+          v-for="(item, key) in billLists"
           :key="key"
           effect="dark"
           :content="`( ${item.dateRange} )`"
@@ -48,7 +48,7 @@ export default {
           <div
             class="custom-month-list golang"
             @click="monthClick(key)"
-            :class="data.common.activeKey === key ? 'active' : ''"
+            :class="activeKey === key ? 'active' : ''"
           >
             <div class="title select">{{ item.monthValue }}</div>
           </div>
@@ -59,19 +59,19 @@ export default {
           >自2020年8月1日钱起，新出账单涉及白金级以上信用卡产品宽限期限从原有9天调整为8天，公务卡宽限期限从原有3天调整为2天。钛金，金，普卡宽限期限仍为3天!</div
         >
         <CustomList
-          :list="monthListDesc"
+          :list="monthListDescs"
           :labelStyle="{ width: '100px' }"
           :column="3"
           :span="1"
         ></CustomList>
         <BaseTable
-          :tableData="fourData"
+          :tableData="fourDatas"
           class="new-table"
-          :total="data.common.listTotal"
-          :currentPage="data.common.currentPage"
+          :total="listTotal"
+          :currentPage="currentPage"
           :handleClick="handleClick"
           :isMutiSelect="false"
-          @handleCurrent="data.common.handleCurrent"
+          @handleCurrent="handleCurrent"
           :newColumns="columns"
         ></BaseTable>
         <div class="cst-footer">
@@ -101,10 +101,10 @@ export default {
         size="small"
         @click="handleTextMsg"
         plain
-        >{{ data.common.isShowTextMsg ? '隐藏' : '显示' }}</el-button
+        >{{ isShowTextMsg ? '隐藏' : '显示' }}</el-button
       >
     </div>
-    <div v-if="data.common.isShowTextMsg">
+    <div v-if="isShowTextMsg">
       <el-descriptions :column="2" class="query-box" size="small" border>
         <el-descriptions-item
           label="手机号"
@@ -114,7 +114,7 @@ export default {
           <el-input
             placeholder="请在此处输入手机号"
             size="small"
-            v-model="data.common.phoneNo"
+            v-model="phoneNo"
             :style="{ width: '30%', marginRight: '20px' }"
             clearable
           >
@@ -126,9 +126,9 @@ export default {
       </el-descriptions>
       <BaseCollapse></BaseCollapse>
     </div>
-    <div v-if="data.common.detailVisiable">
+    <div v-if="detailVisiable">
       <CustomModal
-        :dialogVisiable="data.common.detailVisiable"
+        :dialogVisiable="detailVisiable"
         @hide-dialog="hideTranDetailDialog"
         title="交易明细"
         cancelText="关闭"
@@ -136,10 +136,10 @@ export default {
         width="80%"
       >
         <BaseTable
-          :tableData="tradeData"
+          :tableData="tradeDatas"
           class="new-table"
-          :total="data.common.tranListTotal"
-          :currentPage="data.common.tranCurrentPage"
+          :total="tranListTotal"
+          :currentPage="tranCurrentPage"
           :handleClick="tranHandleClick"
           :isMutiSelect="false"
           @handleCurrent="TtranHandleCurrent"
@@ -147,9 +147,9 @@ export default {
         ></BaseTable>
       </CustomModal>
     </div>
-    <div v-if="data.common.billResetVisiable">
+    <div v-if="billResetVisiable">
       <CustomModal
-        :dialogVisiable="data.common.billResetVisiable"
+        :dialogVisiable="billResetVisiable"
         @hide-dialog="hideBillResetDialog"
         title="个人卡短信账单重置"
         cancelText="关闭"
@@ -161,7 +161,7 @@ export default {
             <el-input
               placeholder="请在此处输入信用卡卡号"
               size="small"
-              v-model="data.common.billCreditCardNo"
+              v-model="billCreditCardNo"
               clearable
             >
             </el-input>
@@ -170,7 +170,7 @@ export default {
             <el-input
               placeholder="请在此处输入手机号"
               size="small"
-              v-model="data.common.billPhoneNo"
+              v-model="billPhoneNo"
               clearable
             >
             </el-input>
@@ -182,7 +182,7 @@ export default {
                       clearable>
             </el-input> -->
             <el-date-picker
-              v-model="data.common.billDate"
+              v-model="billDate"
               size="small"
               type="date"
               placeholder="请在此处选择账单日期"
@@ -193,7 +193,7 @@ export default {
             <el-input
               placeholder="请在此处输入账单日"
               size="small"
-              v-model="data.common.billNo"
+              v-model="billNo"
               clearable
             >
             </el-input>
@@ -216,55 +216,78 @@ import {
   defineEmits,
   reactive,
   ref,
-  computed
+  computed,
+  toRefs
 } from 'vue';
 let data = reactive({
-  common: {
-    creditCardNo: '',
-    billList,
-    billListVisiable: false,
-    billResetVisiable: false,
-    activeKey: 0,
-    monthListDesc,
-    fourData,
-    tradeData,
-    tranListTotal: 1,
-    tranCurrentPage: 1,
-    listTotal: 1,
-    currentPage: 1,
-    isShowTextMsg: false,
-    phoneNo: 18202008219,
-    detailVisiable: false,
-    billNo: '',
-    billDate: '',
-    billPhoneNo: '',
-    billCreditCardNo: ''
-  }
+  creditCardNo: '',
+  billLists: billList,
+  billListVisiable: false,
+  billResetVisiable: false,
+  activeKey: 0,
+  monthListDescs: monthListDesc,
+  fourDatas: fourData,
+  tradeDatas: tradeData,
+  tranListTotal: 1,
+  tranCurrentPage: 1,
+  listTotal: 1,
+  currentPage: 1,
+  isShowTextMsg: false,
+  phoneNo: 18202008219,
+  detailVisiable: false,
+  billNo: '',
+  billDate: '',
+  billPhoneNo: '',
+  billCreditCardNo: ''
 });
 
+let {
+  creditCardNo,
+  billLists,
+  billListVisiable,
+  billResetVisiable,
+  activeKey,
+  monthListDescs,
+  fourDatas,
+  tradeDatas,
+  tranListTotal,
+  tranCurrentPage,
+  listTotal,
+  currentPage,
+  isShowTextMsg,
+  phoneNo,
+  detailVisiable,
+  billNo,
+  billDate,
+  billPhoneNo,
+  billCreditCardNo
+} = toRefs(data);
+onMounted(() => {
+  console.log(billListVisiable, ',billListVisiable');
+});
 const tranHandleClick = () => {},
   TtranHandleCurrent = () => {},
   tranDetailHandle = () => {
-    data.common.detailVisiable = true;
+    detailVisiable.value = true;
   },
   billResetHandle = () => {
-    data.common.billResetVisiable = true;
+    billResetVisiable.value = true;
   },
   hideTranDetailDialog = () => {
-    data.common.detailVisiable = false;
+    detailVisiable.value = false;
   },
   hideBillResetDialog = () => {
-    data.common.billResetVisiable = false;
+    billResetVisiable.value = false;
   },
   handleTextMsg = () => {
-    data.common.isShowTextMsg = !data.common.isShowTextMsg;
+    isShowTextMsg.value = !isShowTextMsg.value;
   },
   billReset = () => {},
   queryClick = () => {
-    data.common.billListVisiable = true;
+    billListVisiable.value = true;
   },
   monthClick = (key: any) => {
-    data.common.activeKey = key;
+    activeKey.value = key;
   },
   handleClick = () => {},
   handleCurrent = () => {},

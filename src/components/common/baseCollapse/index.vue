@@ -18,7 +18,7 @@ export default {
           type="textarea"
           :rows="4"
           placeholder="请输入内容"
-          v-model="data.common.textarea1"
+          v-model="textarea1"
         >
         </el-input>
       </el-collapse-item>
@@ -33,7 +33,7 @@ export default {
           type="textarea"
           :rows="3"
           placeholder="请输入内容"
-          v-model="data.common.textarea2"
+          v-model="textarea2"
         >
         </el-input>
       </el-collapse-item>
@@ -48,7 +48,7 @@ export default {
           type="textarea"
           :rows="3"
           placeholder="请输入内容"
-          v-model="data.common.textarea3"
+          v-model="textarea3"
         >
         </el-input>
       </el-collapse-item>
@@ -63,7 +63,7 @@ export default {
           type="textarea"
           :rows="3"
           placeholder="请输入内容"
-          v-model="data.common.textarea4"
+          v-model="textarea4"
         >
         </el-input>
       </el-collapse-item>
@@ -78,19 +78,20 @@ import {
   defineEmits,
   reactive,
   ref,
-  computed
+  computed,
+  toRefs
 } from 'vue';
 let data = reactive({
-  common: {
-    textarea1: `境内本行柜台：交易金额的1%，最低人民币10元/笔。境内本行和跨行ATM：交易金额的1%，
+  textarea1: `境内本行柜台：交易金额的1%，最低人民币10元/笔。境内本行和跨行ATM：交易金额的1%，
 本行最低人民币8元/笔、跨行最低人民币12元/笔。境外本行或国际组织会员银行柜台或ATM：交易金额的3%，最低3.5美元/笔或500日元/笔。
 境外银联ATM机：按照交易金额的1%,最低人民币15元/笔。现金类交易不享受免息还款待遇，另按日息万分之五的利率收取利息。
  `,
-    textarea2: '',
-    textarea3: '',
-    textarea4: ''
-  }
+  textarea2: '2',
+  textarea3: '3',
+  textarea4: '4'
 });
+
+let { textarea1, textarea2, textarea3, textarea4 } = toRefs(data);
 </script>
 
 <style lang="scss">

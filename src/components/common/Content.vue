@@ -17,21 +17,21 @@ import {
   computed,
   ref,
   watch,
-  watchEffect
+  watchEffect,
+  toRefs
 } from 'vue';
 /**********data************/
 const route = useRoute();
 
 let data = reactive({
-  common: {
-    drawerVisiable: false
-  }
+  drawerVisiable: false
 });
+let { drawerVisiable } = toRefs(data);
 let handleClose = () => {
-    data.common.drawerVisiable = false;
+    drawerVisiable.value = false;
   },
   showDrawer = () => {
-    data.common.drawerVisiable = true;
+    drawerVisiable.value = true;
   };
 
 let tabIndex = 2;
@@ -87,17 +87,13 @@ watch(
       </el-tab-pane>
     </el-tabs>
     <div class="link-box">
-      <div
-        v-if="!data.common.drawerVisiable"
-        class="custom-user-link"
-        @click="showDrawer"
-      >
+      <div v-if="!drawerVisiable" class="custom-user-link" @click="showDrawer">
         交易列表
         <el-icon><CaretRight /></el-icon>
       </div>
     </div>
     <BaseDrawer
-      :drawerVisiable="data.common.drawerVisiable"
+      :drawerVisiable="drawerVisiable"
       @handle-close="handleClose"
     ></BaseDrawer>
   </div>

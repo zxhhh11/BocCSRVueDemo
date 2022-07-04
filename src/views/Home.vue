@@ -9,7 +9,8 @@ import {
   onMounted,
   defineEmits,
   reactive,
-  onUnmounted
+  onUnmounted,
+  toRefs
 } from 'vue';
 import { messageList } from '@/utils/data';
 import CardInfo from '@/components/CardInfo.vue';
@@ -20,13 +21,11 @@ const triggerMenu = () => {
   // isCollapse.value = !isCollapse.value;
 };
 const data = reactive({
-  common: {
-    activeName: 'second',
-    messageList,
-    animationUp: false
-  }
-  // logoImg: require('../assets/images/head_logo.png')
+  activeName: 'second',
+  messageLists: messageList,
+  animationUp: false
 });
+let { activeName, messageLists, animationUp } = toRefs(data);
 const handleKeyDown = (e: any) => {
   if (e.keyCode === 122) {
     e.preventDefault(); // 阻止默认事件
@@ -43,7 +42,7 @@ const handleKeyDown = (e: any) => {
 window.addEventListener('keydown', handleKeyDown, true);
 const keyDown = () => {
     document.onkeydown = (e) => {
-      console.log(e, 'e');
+      console.log(e, 'e  key down in document');
       //事件对象兼容
       // let e1 = e || window.event || arguments.callee.caller.arguments[0]
       let e1 = e || window.event;
@@ -67,14 +66,14 @@ const keyDown = () => {
     };
   },
   scrollAnimate = () => {
-    data.common.animationUp = true;
+    animationUp.value = true;
     setTimeout(() => {
-      let arr = { ...data.common.messageList };
-      data.common.messageList.push(arr[0]);
-      data.common.messageList.push(arr[1]);
-      data.common.messageList.shift();
-      data.common.messageList.shift();
-      data.common.animationUp = false;
+      let arr = { ...messageLists.value };
+      messageLists.value.push(arr[0]);
+      messageLists.value.push(arr[1]);
+      messageLists.value.shift();
+      messageLists.value.shift();
+      animationUp.value = false;
     }, 1000);
   };
 onMounted(() => {
@@ -115,7 +114,7 @@ onUnmounted(() => {
                      @click="handleCollapse"></i>
                 </span> -->
                 <el-tabs
-                  v-model="data.common.activeName"
+                  v-model="activeName"
                   type="card"
                   @tab-click="handleClick"
                   class="left-tabs"
@@ -139,12 +138,9 @@ onUnmounted(() => {
                         <!-- <div class="grid-content bg-purple"> -->
                         <ul
                           class="announcement-list"
-                          :class="{ 'animation-up': data.common.animationUp }"
+                          :class="{ 'animation-up': animationUp }"
                         >
-                          <li
-                            v-for="(item, index) in data.common.messageList"
-                            :key="index"
-                          >
+                          <li v-for="(item, index) in messageList" :key="index">
                             {{ item }}
                           </li>
                         </ul>

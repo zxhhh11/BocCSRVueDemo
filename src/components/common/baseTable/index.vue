@@ -13,10 +13,10 @@ export default {
 <template>
   <div>
     <div v-if="title" class="card-title">{{ title }}</div>
-    <!--  v-on="$listeners"  size="small"-->
     <el-table
       :data="tableData"
       border
+      size="small"
       fit
       :highlight-current-row="!isMutiSelect"
       @selection-change="handleSelectionChange"
@@ -72,7 +72,7 @@ export default {
     <el-pagination
       v-if="hasPagination"
       v-model:currentPage="currentPageValue"
-      :small="small"
+      small
       layout="total, prev, pager, next, jumper"
       :total="total"
       @current-change="handleCurrentChangePage"
@@ -87,7 +87,8 @@ import {
   defineEmits,
   reactive,
   ref,
-  computed
+  computed,
+  toRefs
 } from 'vue';
 const props = defineProps({
   defaultSort: String,
@@ -126,11 +127,10 @@ const props = defineProps({
   }
 });
 let data = reactive({
-  common: {
-    multipleSelection: [],
-    currentRow: null
-  }
+  multipleSelection: [],
+  currentRow: null
 });
+let { multipleSelection, currentRow } = toRefs(data);
 const emit = defineEmits<{
   (e: 'handleCurrent', value: any): void;
   // (e: 'hide-dialog2'): void;
@@ -139,14 +139,14 @@ const handleCurrentChangePage = (val: any) => {
     emit('handleCurrent', val);
   },
   handleSelectionChange = (val: any) => {
-    data.common.multipleSelection = val;
+    multipleSelection.value = val;
     // console.log(val, 'select')
   },
   handleCurrentChange = (val: any) => {
     if (props.isMutiSelect) {
       return;
     }
-    data.common.currentRow = val;
+    currentRow.value = val;
     // console.log(val, 'singal')
   };
 const currentPageValue = computed({

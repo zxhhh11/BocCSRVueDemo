@@ -6,9 +6,9 @@ export default {
 <template>
   <div class="work-sheet-history">
     <BaseTable
-      :tableData="data.common.historyList"
-      :total="data.common.listTotal"
-      :currentPage="data.common.currentPage"
+      :tableData="historyList"
+      :total="listTotal"
+      :currentPage="currentPage"
       :hasPagination="true"
       :handleClick="handleClick"
       :isMutiSelect="false"
@@ -21,28 +21,34 @@ export default {
 <script lang="ts" setup>
 import BaseTable from '@/components/common/baseTable/index.vue';
 import { getHistoryListAPI } from '@/apis/history';
-import { defineProps, onMounted, defineEmits, reactive, ref } from 'vue';
+import {
+  defineProps,
+  onMounted,
+  defineEmits,
+  reactive,
+  ref,
+  toRefs
+} from 'vue';
 let data = reactive({
-  common: {
-    currentPage: 1,
-    listTotal: 0,
-    historyList: []
-  }
+  currentPage: 1,
+  listTotal: 0,
+  historyList: []
 });
+let { currentPage, listTotal, historyList } = toRefs(data);
 onMounted(() => {
   getHistoryList({ currentPage: 1, part: 'work' });
 });
 
 const getHistoryList = (params: any) => {
     getHistoryListAPI(params).then((res: any) => {
-      data.common.historyList = res.data.rows;
-      data.common.listTotal = res.data.total;
+      historyList.value = res.data.rows;
+      listTotal.value = res.data.total;
     });
   },
   handleClick = () => {},
   handleCurrent = (val: any) => {
     getHistoryList({ currentPage: val, part: 'work' });
-    data.common.currentPage = val;
+    currentPage.value = val;
   },
   columns = () => {
     return [

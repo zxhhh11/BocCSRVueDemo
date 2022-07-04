@@ -5,32 +5,31 @@ export default {
 </script>
 <script lang="ts" setup>
 import { useStore } from '@/store/index';
-import { computed, reactive } from 'vue';
+import { computed, reactive, toRefs } from 'vue';
 // import { UserActionTypes } from '/@/store/modules/user/action-types';
 import { UserMutationTypes } from '@/store/modules/user/mutation-types'; // mutation 的type 合集
 const store = useStore();
 export interface stateType {
   user: string;
-  data: string;
   num: number;
   numbers: number[];
   newCount: number[];
 }
-const state: stateType = reactive({
+const data: stateType = reactive({
   user: 'huihui',
-  data: '123',
   num: 12,
   numbers: [1, 2, 3, 4, 5],
-  newCount: computed(() => state.numbers.filter((num: number) => num % 2 === 0))
+  newCount: computed(() => data.numbers.filter((num: number) => num % 2 === 0))
 });
+let { user, num, numbers, newCount } = toRefs(data);
 const newCount2 = computed(() =>
-  state.numbers.filter((num: number) => num % 2 === 1)
+  numbers.value.filter((num: number) => num % 2 === 1)
 );
 const storeCount = computed(() => store.state.user.count * 5);
 
 const IncrementHandle = () => {
-  state.num++;
-  state.numbers.push(6);
+  num.value++;
+  numbers.value.push(6);
 
   // console.log(
   //   state.numbers,
@@ -49,8 +48,8 @@ const count = computed(() => store.state.user.count);
     >testData
 
     <div>
-      Count: {{ count }} {{ state.num }} storeCount:{{ storeCount }} newCount:{{
-        state.newCount[0]
+      Count: {{ count }} {{ num }} storeCount:{{ storeCount }} newCount:{{
+        newCount[0]
       }}
       newCount2:{{ newCount2[0] }}</div
     >

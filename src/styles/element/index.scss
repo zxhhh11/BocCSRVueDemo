@@ -47,7 +47,7 @@
 
 .el-tag {
   background-color: #fff;
-  &.el-tag--blue{
+  &.card-type-blue{
     border-color: #5470c6;
     color: #5470c6;
     &:hover{
@@ -55,7 +55,7 @@
       background-color:#5470c6;
     }
   }
-  &.el-tag--red{
+  &.card-type-red{
     border-color: #a71e32;
     color: #a71e32;
     &:hover{
@@ -63,7 +63,7 @@
       background-color: #a71e32;
     }
   }
-  &.el-tag--green{
+  &.card-type-green{
     border-color: #91cc75;
     color: #91cc75;
     &:hover{
@@ -71,7 +71,7 @@
       background-color:#91cc75;
     }
   }
-  &.el-tag--yellow{
+  &.card-type-yellow{
     border-color: #fac858;
   color: #fac858;
   &:hover{
@@ -79,7 +79,7 @@
     background-color:#fac858;
   }
   }
-  &.el-tag--pink{
+  &.card-type-pink{
     border-color: #ee6666;
     color: #ee6666;
     &:hover{
@@ -87,7 +87,7 @@
       background-color:#ee6666;
     }
   }
-  &.el-tag--lightblue{
+  &.card-type-lightblue{
     border-color: #73c0de;
     color: #73c0de;
     &:hover{
@@ -95,7 +95,7 @@
       background-color:#73c0de;
     }
   }
-  &.el-tag--lightgreen{
+  &.card-type-lightgreen{
     border-color: #3ba272;
   color: #3ba272;
   &:hover{
@@ -103,7 +103,7 @@
     background-color:#3ba272;
   }
   }
-  &.el-tag--orange{
+  &.card-type-orange{
     border-color: #fc8452;
     color: #fc8452;
     &:hover{
@@ -112,7 +112,7 @@
     }
   }
  
-  &.el-tag--lightpink{
+  &.card-type-lightpink{
     border-color: #ea7ccc;
   color: #ea7ccc;
     &:hover{
@@ -120,14 +120,14 @@
       background-color:#ea7ccc;
     }
   }
-  &.el-tag--no{
+  &.card-type-no{
     border-color: transparent;
     color: #303133;
     &:hover{
       background-color:#fff;
     }
   }
-  &.el-tag--purple{
+  &.card-type-purple{
     border-color: #9a60b4;
     color: #9a60b4;
     &:hover{

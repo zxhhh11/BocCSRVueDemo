@@ -12,7 +12,7 @@ export default {
         content-class-name="my-content"
       >
         <el-select
-          v-model="data.common.idType"
+          v-model="idType"
           class="idType"
           clearable
           placeholder="请选择证件类型"
@@ -31,11 +31,7 @@ export default {
         label-class-name="my-label"
         content-class-name="my-content"
       >
-        <el-input
-          placeholder="请在此处输入证件号"
-          v-model="data.common.idNo"
-          clearable
-        >
+        <el-input placeholder="请在此处输入证件号" v-model="idNo" clearable>
         </el-input>
       </el-descriptions-item>
       <el-descriptions-item label-class-name="hide">
@@ -47,11 +43,11 @@ export default {
         >
       </el-descriptions-item>
     </el-descriptions>
-    <div class="result-box" v-if="data.common.showResult">
+    <div class="result-box" v-if="showResult">
       <BaseTable
-        :tableData="data.common.progressList"
-        :total="data.common.listTotal"
-        :currentPage="data.common.currentPage"
+        :tableData="progressList"
+        :total="listTotal"
+        :currentPage="currentPage"
         :hasPagination="true"
         :handleClick="handleClick"
         :isMutiSelect="false"
@@ -62,14 +58,14 @@ export default {
     </div>
     <div>
       <CustomModal
-        :dialogVisiable="data.common.detailVisiable"
+        :dialogVisiable="detailVisiable"
         @hide-dialog="hideCardDialog"
         title="申请见进度详细信息"
         cancelText="关闭"
         :hasConfirm="false"
         width="40%"
       >
-        <CustomList :list="ProgressDetail" :column="2" :span="1"></CustomList>
+        <CustomList :list="ProgressDetails" :column="2" :span="1"></CustomList>
       </CustomModal>
     </div>
   </div>
@@ -88,6 +84,7 @@ import {
   onMounted,
   defineEmits,
   reactive,
+  toRefs,
   ref,
   computed
 } from 'vue';
@@ -118,47 +115,54 @@ const options = [
   }
 ];
 let data = reactive({
-  common: {
-    ProgressDetail,
-    detailVisiable: false,
-    showResult: false,
-    progressList: [],
-    currentPage: 1,
-    listTotal: 0,
-
-    idType: '',
-    idNo: ''
-  }
+  ProgressDetails: ProgressDetail,
+  detailVisiable: false,
+  showResult: false,
+  progressList: [],
+  currentPage: 1,
+  listTotal: 0,
+  idType: '',
+  idNo: ''
 });
+let {
+  ProgressDetails,
+  detailVisiable,
+  showResult,
+  progressList,
+  currentPage,
+  listTotal,
+  idType,
+  idNo
+} = toRefs(data);
 onMounted(() => {
   getProgressList({ currentPage: 1, part: 'query' });
 });
 
 const hideCardDialog = () => {
-    data.common.detailVisiable = false;
+    detailVisiable.value = false;
   },
   queryClick = () => {
-    data.common.showResult = true;
+    showResult.value = true;
   },
   resetClick = () => {
-    data.common.showResult = false;
-    (data.common.idType = ''), (data.common.idNo = '');
+    showResult.value = false;
+    (idType.value = ''), (idNo.value = '');
   },
   handleCurrent = (val: any) => {
     getProgressList({ currentPage: val, part: 'query' });
-    data.common.currentPage = val;
+    currentPage.value = val;
   },
   handleClick = (row: any, column: any, $index: any) => {
     // console.log(row, column, $index)
   },
   getProgressList = (params: any) => {
     getProgressListAPI(params).then((res: any) => {
-      data.common.progressList = res.data.rows;
-      data.common.listTotal = res.data.total;
+      progressList.value = res.data.rows;
+      listTotal.value = res.data.total;
     });
   },
   showMore = () => {
-    data.common.detailVisiable = true;
+    detailVisiable.value = true;
   },
   columns = () => {
     return [
@@ -173,27 +177,29 @@ const hideCardDialog = () => {
         prop: 'applicationNo',
         dataIndex: 'applicationNo',
         label: '申请件编号',
-        width: 140
+        width: 160
       },
       { index: 3, prop: 'proposer', dataIndex: 'proposer', label: '申请人' },
       {
         index: 4,
         prop: 'incomID',
         dataIndex: 'incomID',
-        label: '进件机构ID'
+        label: '进件机构ID',
+        width: 160
       },
       {
         index: 5,
         prop: 'receivedDate',
         dataIndex: 'receivedDate',
-        label: '收件日期	'
+        label: '收件日期',
+        width: 160
       },
       {
         index: 6,
         prop: 'status',
         dataIndex: 'status',
         label: '申请状态',
-        width: 300
+        width: 350
       },
       {
         index: 7,
@@ -205,7 +211,8 @@ const hideCardDialog = () => {
         index: 8,
         prop: 'incomChannel',
         dataIndex: 'incomChannel',
-        label: '进件渠道'
+        label: '进件渠道',
+        width: 100
       },
       {
         index: 9,

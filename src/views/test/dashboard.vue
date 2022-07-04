@@ -5,12 +5,13 @@ import {
   watchEffect,
   reactive,
   onBeforeUpdate,
-  onUpdated
+  onUpdated,
+  toRefs
 } from 'vue'; // computed, watch
 
 const count = ref(1);
 // const plusOne = computed(() => count.value + 1);
-const state = reactive({ num: 1, think: 5 });
+const data = reactive({ num: 1, think: 5 });
 // const plusOne = computed({
 //   get: () => count.value + 1, //   重新计算的值  即plusOne 的重新计算后的值
 //   set: (val) => {
@@ -18,6 +19,7 @@ const state = reactive({ num: 1, think: 5 });
 //   }
 // });
 // console.log(count.value, 'value');
+let { num, think } = toRefs(data);
 watchEffect(() => {
   //只能获取到变化后的值
   // console.log(state.num, 'watch effect state.num');
@@ -39,24 +41,24 @@ onMounted(() => {
   // }, 2000);
 });
 onBeforeUpdate(() => {
-  console.log('数据更新前调用----------', state);
+  console.log('数据更新前调用----------', data);
 });
 onUpdated(() => {
-  console.log('数据更新后调用------------', state);
+  console.log('数据更新后调用------------', data);
 });
 const handelData = () => {
-  state.think = state.think + 3;
-  console.log(state.think);
+  think.value = think.value + 3;
+  console.log(think.value);
 };
 const handelViewData = () => {
-  state.num = state.num + 5;
-  console.log(state.num);
+  num.value = num.value + 5;
+  console.log(num.value);
 };
 </script>
 
 <template>
   <div
-    >dashboard {{ state.num }}
+    >dashboard {{ num }}
 
     <el-button type="primary" @click="handelData">handelData</el-button>
     <el-button type="primary" @click="handelViewData">handelViewData</el-button>

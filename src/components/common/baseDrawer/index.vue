@@ -13,7 +13,7 @@ export default {
       :append-to-body="false"
       :before-close="handleClose"
     >
-      <template #title>
+      <template #header>
         <div class="card-title">快速查询</div>
       </template>
       <template #default>
@@ -27,7 +27,7 @@ export default {
               <el-input
                 placeholder="请在此处输入用户姓名"
                 size="small"
-                v-model="data.common.name"
+                v-model="name"
                 clearable
               >
               </el-input>
@@ -36,7 +36,7 @@ export default {
               <el-input
                 placeholder="请在此处输入信用卡号"
                 size="small"
-                v-model="data.common.creditCardNo"
+                v-model="creditCardNo"
                 clearable
               >
               </el-input>
@@ -45,7 +45,7 @@ export default {
               <el-input
                 placeholder="请在此处输入手机号"
                 size="small"
-                v-model="data.common.phoneNo"
+                v-model="phoneNo"
                 clearable
               >
               </el-input>
@@ -54,16 +54,16 @@ export default {
               <el-input
                 placeholder="请在此处输入证件号"
                 size="small"
-                v-model="data.common.idNo"
+                v-model="idNo"
                 clearable
               >
               </el-input>
             </el-descriptions-item>
           </el-descriptions>
           <BaseTable
-            :tableData="drawerData"
-            :total="data.common.listTotal"
-            :currentPage="data.common.currentPage"
+            :tableData="drawerDatas"
+            :total="listTotal"
+            :currentPage="currentPage"
             :hasPagination="true"
             :handleClick="handleClick"
             :isMutiSelect="false"
@@ -83,7 +83,7 @@ export default {
   </div>
 </template>
 <script lang="ts" setup>
-// import BaseTable from '../custom/BaseTable.vue';
+import BaseTable from '@/components/common/baseTable/index.vue';
 import { drawerData } from '@/utils/data';
 import {
   defineProps,
@@ -91,7 +91,8 @@ import {
   defineEmits,
   reactive,
   computed,
-  ref
+  ref,
+  toRefs
 } from 'vue';
 
 const props = defineProps({
@@ -101,19 +102,17 @@ const props = defineProps({
   }
 });
 let data = reactive({
-  common: {
-    name: '',
-    creditCardNo: '',
-    phoneNo: '',
-    idNo: '',
-    // drawerData: drawerData,
-    listTotal: 0,
-    currentPage: 1
-  }
+  name: '',
+  creditCardNo: '',
+  phoneNo: '',
+  idNo: '',
+  drawerDatas: drawerData,
+  listTotal: drawerData.length,
+  currentPage: 1
 });
-onMounted(() => {
-  console.log(data, 'data');
-});
+let { name, creditCardNo, phoneNo, idNo, listTotal, currentPage, drawerDatas } =
+  toRefs(data);
+onMounted(() => {});
 const emit = defineEmits<{
   (e: 'handle-close', value: any): void;
   // (e: 'hide-dialog2'): void;
@@ -121,7 +120,6 @@ const emit = defineEmits<{
 let drawerVisiableVal = computed({
   //封装组件中如果需要用V-model 来设置属性时，就需要通过computed 将属性做一下转化
   get: () => {
-    console.log(props.drawerVisiable, ' props.drawerVisiable', emit, 'emit');
     return props.drawerVisiable;
   },
   set: (value) => {
@@ -141,8 +139,12 @@ const handleClick = () => {},
     //   .catch(_ => { });
     emit('handle-close', false);
   },
-  cancelClick = () => {},
-  confirmClick = () => {},
+  cancelClick = () => {
+    emit('handle-close', false);
+  },
+  confirmClick = () => {
+    emit('handle-close', false);
+  },
   columns = () => {
     return [
       {

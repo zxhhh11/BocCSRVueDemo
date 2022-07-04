@@ -19,17 +19,17 @@ export default {
         >
         </el-input>
       </el-descriptions-item>
-      <el-descriptions-item :labelStyle="{ display: 'none' }">
+      <el-descriptions-item label-class-name="hide">
         <el-button type="primary" size="small" @click="queryClick" round
           >查询</el-button
         >
       </el-descriptions-item>
     </el-descriptions>
     <BaseTable
-      v-if="data.common.showResult"
-      :tableData="data.common.historyList"
-      :total="data.common.listTotal"
-      :currentPage="data.common.currentPage"
+      v-if="showResult"
+      :tableData="historyList"
+      :total="listTotal"
+      :currentPage="currentPage"
       :hasPagination="true"
       :handleClick="handleClick"
       :isMutiSelect="false"
@@ -44,35 +44,41 @@ import BaseTable from '@/components/common/baseTable/index.vue';
 
 // import CustomList from '@/components/common/customList/index.vue';
 import { getHistoryListAPI } from '@/apis/history';
-import { defineProps, onMounted, defineEmits, reactive, ref } from 'vue';
+import {
+  defineProps,
+  onMounted,
+  defineEmits,
+  reactive,
+  ref,
+  toRefs
+} from 'vue';
 
 let data = reactive({
-  common: {
-    currentPage: 1,
-    listTotal: 0,
-    historyList: [],
-    creditCardNo: '',
-    showResult: false
-  }
+  currentPage: 1,
+  listTotal: 0,
+  historyList: [],
+  creditCardNo: '',
+  showResult: false
 });
-
+let { currentPage, listTotal, historyList, creditCardNo, showResult } =
+  toRefs(data);
 onMounted(() => {
   getHistoryList({ currentPage: 1, part: 'inter' });
 });
 
 const queryClick = () => {
-    data.common.showResult = true;
+    showResult.value = true;
   },
   getHistoryList = (params: any) => {
     getHistoryListAPI(params).then((res: any) => {
-      data.common.historyList = res.data.rows;
-      data.common.listTotal = res.data.total;
+      historyList.value = res.data.rows;
+      listTotal.value = res.data.total;
     });
   },
   handleClick = () => {},
   handleCurrent = (val: any) => {
     getHistoryList({ currentPage: val, part: 'inter' });
-    data.common.currentPage = val;
+    currentPage.value = val;
   },
   columns = () => {
     return [
