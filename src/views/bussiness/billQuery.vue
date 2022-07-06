@@ -5,6 +5,28 @@ export default {
 </script>
 <template>
   <div>
+    <el-row>
+      <el-col :sm="12" :lg="4">
+        <el-result icon="success" title="成功" subTitle="身份验证"></el-result>
+      </el-col>
+      <el-col :sm="12" :lg="4">
+        <el-result
+          icon="warning"
+          title="异常警告"
+          subTitle="信用卡欠款情况"
+        ></el-result>
+      </el-col>
+      <el-col :sm="12" :lg="4">
+        <el-result icon="error" title="失败" subTitle="XX业务"></el-result>
+      </el-col>
+      <el-col :sm="12" :lg="4">
+        <el-result icon="info" title="待处理" subTitle="关联业务">
+          <!-- <template slot="extra">
+            <el-button type="primary" size="medium">返回</el-button>
+          </template> -->
+        </el-result>
+      </el-col>
+    </el-row>
     <div class="card-title">
       信用卡账单查询
       <span class="title-btn">

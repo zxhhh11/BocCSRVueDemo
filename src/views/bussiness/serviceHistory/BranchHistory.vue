@@ -72,6 +72,7 @@ const queryClick = () => {
   },
   getHistoryList = (params: any) => {
     getHistoryListAPI(params).then((res: any) => {
+      console.log(res, 'res getHistoryListAPI');
       historyList.value = res.data.rows;
       listTotal.value = res.data.total;
     });

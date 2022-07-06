@@ -5,14 +5,14 @@ const users = [
   {
     id: 1,
     username: 'admin',
-    password: 'admin',
+    pwd: 'admin',
     name: 'Vue Master',
     role: 'admin'
   },
   {
     id: 2,
     username: 'user1',
-    password: 'password',
+    pwd: 'password',
     name: 'User One',
     role: 'common'
   }
@@ -26,10 +26,11 @@ export default {
       name2 = '',
       message = '';
     const user = JSON.parse(options.body);
+    console.log(user, '');
     for (let i = 0; i < users.length; i++) {
       if (
         users[i]['username'] === user['username'] &&
-        users[i]['password'] === user['password']
+        users[i]['pwd'] === user['pwd']
       ) {
         accessToken = 'longtimenoseeIamdyingtoseeyou';
         status = 200;
@@ -43,7 +44,7 @@ export default {
       status: status,
       message: message,
       data: {
-        state: 20101,
+        status: 200,
         accessToken,
         // menuTree: getMenu(),
         userInfo: {
@@ -57,6 +58,7 @@ export default {
     const params = 'longtimenoseeIamdyingtoseeyou-1';
     const userId = parseInt(params.split('-')[1]);
     // const user = arrayFind(users, 'id', userId)
+    const user = JSON.parse(options.body);
     user.name = user.username;
     return {
       status: user ? 200 : 404,

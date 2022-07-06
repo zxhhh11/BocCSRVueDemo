@@ -75,6 +75,9 @@ const keyDown = () => {
       messageLists.value.shift();
       animationUp.value = false;
     }, 1000);
+  },
+  handleClick = () => {
+    console.log('handleClick');
   };
 onMounted(() => {
   keyDown(); // 监听键盘

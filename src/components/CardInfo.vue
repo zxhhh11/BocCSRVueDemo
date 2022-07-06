@@ -78,6 +78,9 @@ const showCardDetail = (index: number, row: any) => {
 <template>
   <div class="card-box">
     <div class="search-box">
+      <div class="current-card"
+        >当前卡：<span class="current-cardNo">6259****89699550</span></div
+      >
       <el-input
         v-model="searchCard"
         placeholder="Please input"
@@ -98,7 +101,10 @@ const showCardDetail = (index: number, row: any) => {
         高端产品卡列表 <span class="add-info">(共8个卡片)</span></div
       >
       <template v-for="(item, key) in highLists" :key="key">
-        <el-card shadow="hover" class="card-item">
+        <el-card
+          shadow="hover"
+          :class="['card-item', key === 0 ? 'is-active' : '']"
+        >
           <template #header>
             <div class="clearfix custom-card-header">
               <div class="title">{{ item.title }}</div>
@@ -278,6 +284,19 @@ const showCardDetail = (index: number, row: any) => {
 .card-box {
   .search-box {
     text-align: right;
+    position: relative;
+    height: 50px;
+    line-height: 50px;
+    .current-card {
+      position: absolute;
+      left: 10px;
+      font-weight: 600;
+      font-size: 16px;
+      .current-cardNo {
+        font-weight: 600;
+        color: #1890ff;
+      }
+    }
     .el-input {
       width: 40%;
       .el-input__inner {
@@ -291,10 +310,12 @@ const showCardDetail = (index: number, row: any) => {
 
   .card-item {
     display: inline-block;
-    width: 49%;
+    width: 46%;
     text-align: left;
     box-sizing: border-box;
-    margin-right: 1px;
+    margin: 8px 12px;
+    margin-bottom: 0;
+    box-shadow: var(--el-box-shadow-light);
     .el-card__header {
       padding: 4px 10px;
       border-bottom: 0;
@@ -361,7 +382,8 @@ const showCardDetail = (index: number, row: any) => {
 // .card-box .ant-card .ant-card-grid{
 //   border: 1px solid transparent;
 // }
-.card-box .el-card:hover {
+.card-box .el-card:hover,
+.card-box .el-card.is-active {
   // background-color: #f5dcde;
   background-color: #f9e8e9;
   border: 1px solid #a71e32;

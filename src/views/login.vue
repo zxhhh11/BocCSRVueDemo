@@ -1,22 +1,32 @@
 <script lang="ts" setup>
-import { reactive, ref, unref } from 'vue';
+import { reactive, ref, unref, toRefs, Ref } from 'vue';
 import { ElForm } from 'element-plus';
 // eslint-disable-next-line no-unused-vars
 import { User, Lock } from '@element-plus/icons-vue';
 import { handleLogin } from '@/apis/user';
 import { useRouter } from 'vue-router';
-const state = reactive({ ruleForm: { username: '', pass: '' } });
+
+const ruleForm: {
+  username: string;
+  pwd: string;
+} = { username: '', pwd: '' };
+const ruleForms = ref(ruleForm);
+
 const ruleFormRef = ref(ElForm);
 const router = useRouter();
 const submitForm = (name: string) => {
   console.log(name);
   const form = unref(ruleFormRef); //  如果参数是一个 ref 则返回ref 内部值 相当于 ref.value 否则返回参数本身
   form.validate((valid: any) => {
+    console.log(ruleForms, 'state.ruleForm', valid, 'valid');
     if (valid) {
-      handleLogin({ username: 'xiaohui', pass: 'word' }).then((res: any) => {
+      handleLogin({
+        username: ruleForms.value.username,
+        pwd: ruleForms.value.pwd
+      }).then((res: any) => {
         if (res) {
+          console.log({ res }, 'before push');
           if (res.data.status === 401) {
-            console.log({ res }, 'before push');
             // router
             //   .push({
             //     path: '/dashboard'
@@ -26,6 +36,8 @@ const submitForm = (name: string) => {
             //     console.warn(err);
             //   });
             router.push('/');
+          } else if (res.data.status === 200) {
+            router.push('/test');
           }
         }
       });
@@ -41,45 +53,48 @@ const submitForm = (name: string) => {
 </script>
 
 <template>
-  <!-- <div class="login"> -->
-  <div class="login-box">
-    <div class="login-title">测试系统</div>
-    <el-form
-      ref="ruleFormRef"
-      :model="state.ruleForm"
-      status-icon
-      class="demo-ruleForm"
-    >
-      <!--  :rules="rules" -->
-      <el-form-item prop="username">
-        <el-input
-          :prefix-icon="User"
-          v-model="state.ruleForm.username"
-          placeholder="Username"
-        ></el-input>
-      </el-form-item>
-      <el-form-item prop="pass">
-        <el-input
-          placeholder="Password"
-          :prefix-icon="Lock"
-          v-model="state.ruleForm.pass"
-          autocomplete="off"
-          show-password
-        ></el-input>
-      </el-form-item>
+  <div class="login">
+    <div class="login-box">
+      <div class="login-title">测试系统</div>
+      <el-form
+        ref="ruleFormRef"
+        :model="ruleForms"
+        status-icon
+        class="demo-ruleForm"
+      >
+        <!--  :rules="rules" -->
+        <el-form-item prop="username">
+          <el-input
+            :prefix-icon="User"
+            v-model="ruleForms.username"
+            placeholder="Username"
+          ></el-input>
+        </el-form-item>
+        <el-form-item prop="pass">
+          <el-input
+            placeholder="Password"
+            :prefix-icon="Lock"
+            v-model="ruleForms.pwd"
+            autocomplete="off"
+            show-password
+          ></el-input>
+        </el-form-item>
 
-      <el-form-item class="btn-form-group">
-        <el-button type="primary" @click="submitForm('ruleForm')"
-          >Submit</el-button
-        >
-        <!-- <el-button @click="resetForm('ruleForm')">Reset</el-button> -->
-      </el-form-item>
-    </el-form>
+        <el-form-item class="btn-form-group">
+          <el-button type="primary" @click="submitForm('ruleForm')"
+            >Submit</el-button
+          >
+          <!-- <el-button @click="resetForm('ruleForm')">Reset</el-button> -->
+        </el-form-item>
+      </el-form>
+    </div>
   </div>
-  <!-- </div> -->
 </template>
 
 <style>
+.login {
+  border: 1px solid transparent;
+}
 .login-box {
   width: 22em;
   height: 22em;

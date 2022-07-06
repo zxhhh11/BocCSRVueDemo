@@ -67,153 +67,154 @@ const handleLogout = async () => {
 onMounted(() => {});
 </script>
 <template>
-  <el-header>
-    <span class="logo">
-      <img :src="logoImg" alt="" />
-    </span>
-    <span class="phone-box phone-set">
-      <span class="phone-item">
-        <span class="el-dropdown-link">
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-phone-off"></use>
-          </svg>
-          <span class="phone-text">挂机</span>
-        </span>
+  <div>
+    <el-header>
+      <span class="logo">
+        <img :src="logoImg" alt="" />
       </span>
-      <span class="phone-item">
-        <el-popover placement="bottom" trigger="click">
-          <div class="m-phonePanel panel panel-default">
-            <div class="panel-heading"> 软电话 </div>
-            <div class="panel-body clearfix">
-              <table
-                cellpadding="0"
-                cellspacing="0"
-                class="table table-bordered text-center pull-left"
-              >
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>2</td>
-                    <td>3</td>
-                  </tr>
-                  <tr>
-                    <td>4</td>
-                    <td>5</td>
-                    <td>6</td>
-                  </tr>
-                  <tr>
-                    <td>7</td>
-                    <td>8</td>
-                    <td>9</td>
-                  </tr>
-                  <tr>
-                    <td>*</td>
-                    <td>0</td>
-                    <td>#</td>
-                  </tr>
-                </tbody>
-              </table>
-              <div class="pull-right ml15">
-                <div class="tips"
-                  >请输入电话号码，外线请加前导码<br />
-                  例如 (982726522)</div
+      <span class="phone-box phone-set">
+        <span class="phone-item">
+          <span class="el-dropdown-link">
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-phone-off"></use>
+            </svg>
+            <span class="phone-text">挂机</span>
+          </span>
+        </span>
+        <span class="phone-item">
+          <el-popover placement="bottom" trigger="click">
+            <div class="m-phonePanel panel panel-default">
+              <div class="panel-heading"> 软电话 </div>
+              <div class="panel-body clearfix">
+                <table
+                  cellpadding="0"
+                  cellspacing="0"
+                  class="table table-bordered text-center pull-left"
                 >
-                <div class="select-number">
-                  <el-select v-model="value" placeholder="请选择">
-                    <el-option
-                      v-for="item in options"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value"
-                    >
-                    </el-option>
-                  </el-select>
+                  <tbody>
+                    <tr>
+                      <td>1</td>
+                      <td>2</td>
+                      <td>3</td>
+                    </tr>
+                    <tr>
+                      <td>4</td>
+                      <td>5</td>
+                      <td>6</td>
+                    </tr>
+                    <tr>
+                      <td>7</td>
+                      <td>8</td>
+                      <td>9</td>
+                    </tr>
+                    <tr>
+                      <td>*</td>
+                      <td>0</td>
+                      <td>#</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="pull-right ml15">
+                  <div class="tips"
+                    >请输入电话号码，外线请加前导码<br />
+                    例如 (982726522)</div
+                  >
+                  <div class="select-number">
+                    <el-select v-model="value" placeholder="请选择">
+                      <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      >
+                      </el-option>
+                    </el-select>
+                  </div>
+                  <el-button-group>
+                    <el-button size="small" type="success">拨号</el-button>
+                    <el-button size="small" type="danger">清除</el-button>
+                    <el-button size="small">取消</el-button>
+                    <el-button size="small" type="primary">选择</el-button>
+                  </el-button-group>
                 </div>
-                <el-button-group>
-                  <el-button size="small" type="success">拨号</el-button>
-                  <el-button size="small" type="danger">清除</el-button>
-                  <el-button size="small">取消</el-button>
-                  <el-button size="small" type="primary">选择</el-button>
-                </el-button-group>
               </div>
             </div>
-          </div>
-          <template #reference>
-            <span class="el-dropdown-link">
-              <svg class="icon" aria-hidden="true">
-                <use xlink:href="#icon-phonelog"></use>
-              </svg>
-              <span class="phone-text"> 拨号 </span>
-            </span>
+            <template #reference>
+              <span class="el-dropdown-link">
+                <svg class="icon" aria-hidden="true">
+                  <use xlink:href="#icon-phonelog"></use>
+                </svg>
+                <span class="phone-text"> 拨号 </span>
+              </span>
+            </template>
+          </el-popover>
+        </span>
+        <!-- <div > -->
+        <!-- <span > -->
+        <el-dropdown class="phone-item">
+          <span class="el-dropdown-link">
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-zhuanjie"></use>
+            </svg>
+            <span class="phone-text"> 转接 </span>
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>选项1</el-dropdown-item>
+              <el-dropdown-item>选项2</el-dropdown-item>
+              <el-dropdown-item>选项3</el-dropdown-item>
+            </el-dropdown-menu>
           </template>
-        </el-popover>
+        </el-dropdown>
+        <!-- </span> -->
+        <!-- </div> -->
+        <el-dropdown class="phone-item">
+          <span class="el-dropdown-link">
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-transfer-zhuanjie"></use>
+            </svg>
+            <span class="phone-text">速转</span>
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>选项7</el-dropdown-item>
+              <el-dropdown-item>选项8</el-dropdown-item>
+              <el-dropdown-item>选项9</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+        <el-dropdown class="phone-item">
+          <span class="el-dropdown-link">
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-phonesettings"></use>
+            </svg>
+            <span class="phone-text"> 私谈 </span>
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>选项10</el-dropdown-item>
+              <el-dropdown-item>选项11</el-dropdown-item>
+              <el-dropdown-item>选项12</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+        <el-dropdown class="phone-item">
+          <span class="el-dropdown-link">
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-keepHold-baochi"></use>
+            </svg>
+            <span class="phone-text">保持</span>
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>选项13</el-dropdown-item>
+              <el-dropdown-item>选项14</el-dropdown-item>
+              <el-dropdown-item>选项15</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
       </span>
-      <!-- <div > -->
-      <!-- <span > -->
-      <el-dropdown class="phone-item">
-        <span class="el-dropdown-link">
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-zhuanjie"></use>
-          </svg>
-          <span class="phone-text"> 转接 </span>
-        </span>
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item>选项1</el-dropdown-item>
-            <el-dropdown-item>选项2</el-dropdown-item>
-            <el-dropdown-item>选项3</el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
-      <!-- </span> -->
-      <!-- </div> -->
-      <el-dropdown class="phone-item">
-        <span class="el-dropdown-link">
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-transfer-zhuanjie"></use>
-          </svg>
-          <span class="phone-text">速转</span>
-        </span>
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item>选项7</el-dropdown-item>
-            <el-dropdown-item>选项8</el-dropdown-item>
-            <el-dropdown-item>选项9</el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
-      <el-dropdown class="phone-item">
-        <span class="el-dropdown-link">
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-phonesettings"></use>
-          </svg>
-          <span class="phone-text"> 私谈 </span>
-        </span>
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item>选项10</el-dropdown-item>
-            <el-dropdown-item>选项11</el-dropdown-item>
-            <el-dropdown-item>选项12</el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
-      <el-dropdown class="phone-item">
-        <span class="el-dropdown-link">
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-keepHold-baochi"></use>
-          </svg>
-          <span class="phone-text">保持</span>
-        </span>
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item>选项13</el-dropdown-item>
-            <el-dropdown-item>选项14</el-dropdown-item>
-            <el-dropdown-item>选项15</el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
-    </span>
-    <!-- <span class="trigger-menu">
+      <!-- <span class="trigger-menu">
       <div>
         <el-icon :size="36" v-if="props.isCollapse" @click="triggerMenuFunc">
           <fold />
@@ -224,48 +225,49 @@ onMounted(() => {});
       </div>
       <span class="system-name">VUE3后台管理系统</span>
     </span> -->
-    <span class="right-btns">
-      <span class="user-info">
-        <span class="user-module">
-          <span class="item">
-            <label> 来电号码：</label>
-            <span>16688986696</span>
+      <span class="right-btns">
+        <span class="user-info">
+          <span class="user-module">
+            <span class="item">
+              <label> 来电号码：</label>
+              <span>16688986696</span>
+            </span>
+            <span class="item">
+              <label> 验密标识：</label>
+              <span>已验密</span>
+            </span>
+            <span class="item">
+              <label> 客户姓名：</label>
+              <span>一二三</span>
+            </span>
           </span>
-          <span class="item">
-            <label> 验密标识：</label>
-            <span>已验密</span>
-          </span>
-          <span class="item">
-            <label> 客户姓名：</label>
-            <span>一二三</span>
-          </span>
-        </span>
-        <el-dropdown trigger="click">
-          <div class="item user-avatar">
-            <el-avatar :src="avatarUrl"></el-avatar>
-            <span class="user-name">Admin</span>
+          <el-dropdown trigger="click">
+            <div class="item user-avatar">
+              <el-avatar :src="avatarUrl"></el-avatar>
+              <span class="user-name">Admin</span>
+            </div>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item>操作一</el-dropdown-item>
+                <el-dropdown-item>操作二</el-dropdown-item>
+                <el-dropdown-item>操作三</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+          <div class="item">
+            <el-icon :size="36">
+              <setting />
+            </el-icon>
           </div>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item>操作一</el-dropdown-item>
-              <el-dropdown-item>操作二</el-dropdown-item>
-              <el-dropdown-item>操作三</el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
-        <div class="item">
-          <el-icon :size="36">
-            <setting />
-          </el-icon>
-        </div>
-        <div class="item">
-          <el-icon :size="36">
-            <sugar @click="handleLogout" />
-          </el-icon>
-        </div>
+          <div class="item">
+            <el-icon :size="36">
+              <sugar @click="handleLogout" />
+            </el-icon>
+          </div>
+        </span>
       </span>
-    </span>
-  </el-header>
+    </el-header>
+  </div>
 </template>
 
 <style lang="scss">

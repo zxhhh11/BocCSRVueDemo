@@ -5,7 +5,7 @@ export default {
 </script>
 <template>
   <div>
-    <el-descriptions :column="3" class="query-box" size="mini" border>
+    <el-descriptions :column="3" class="query-box" size="small" border>
       <el-descriptions-item
         label="证件类型"
         label-class-name="my-label"

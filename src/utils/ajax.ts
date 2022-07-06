@@ -12,6 +12,7 @@ function requestHandle(params: AxiosRequestConfig<any>) {
     axios(params)
       .then((res) => {
         if (res.data) {
+          console.log(res, 'res 123');
           if (res.data.status === 200) {
             resolve({
               data: res.data.data ? res.data.data : null // TODO: 后续接口返回数据形式固定后需再修改

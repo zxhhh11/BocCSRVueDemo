@@ -56,7 +56,7 @@ export default {
               <el-input type="textarea" v-model="customerIssue"></el-input>
             </el-descriptions-item>
             <el-descriptions-item :span="2" label="">
-              <el-button type="primary" size="mini">保存</el-button>
+              <el-button type="primary" size="small">保存</el-button>
             </el-descriptions-item>
           </template>
         </CustomList>
@@ -92,34 +92,19 @@ import {
   defineEmits,
   reactive,
   computed,
+  toRefs,
   ref
 } from 'vue';
 const showMore = ref(false),
   showMoreHandle = () => {
     showMore.value = !showMore.value;
   };
-// export default {
-//   components: { CustomList },
-//   data() {
-//     return {
-//       customerInfoData,
-//       ManagerInfo,
-//       recepInfo,
-//       showMore: false,
-//       options,
-//       customerTags,
-//       customerBasicInfo,
-//       callReason: '',
-//       customerIssue: '',
-//       tagsDesc: '这是一段关于重要标识得详细得文字描述'
-//     };
-//   },
-//   methods: {
-//     showMoreHandle() {
-//       this.showMore = !this.showMore;
-//     }
-//   }
-// };
+const data = reactive({
+  customerIssue: '',
+  callReason: '',
+  tagsDesc: ''
+});
+let { customerIssue, callReason, tagsDesc } = toRefs(data);
 </script>
 <style lang="scss">
 .customer-info {
