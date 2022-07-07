@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 // import { Ref, ref } from 'vue';
-
+// import { defineAsyncComponent, type DefineComponent } from 'vue'
 import Header from '@/components/common/Header.vue'; // Module  ...  has no default export.Vetur(1192)
+
 import NavBar from '@/components/common/NavBar.vue'; //是因为 vetur 对setup 支持不是很完善 虽报错 但是不影响使用
 import Content from '@/components/common/Content.vue'; // 如果使用 setup函数就没报错  // 或者在setup模式文件顶部再加一个script标签 其中写入文件name属性
 import {
@@ -17,9 +18,15 @@ import CardInfo from '@/components/CardInfo.vue';
 import CustomerInfo from '@/components/CustomerInfo.vue';
 // const isCollapse = ref(null);
 // const nav: Ref<null> = ref();
-const triggerMenu = () => {
-  // isCollapse.value = !isCollapse.value;
-};
+// interface Props {
+//   a: number
+// }
+// const Header = defineAsyncComponent<DefineComponent<Props>>(
+//   () => import('@/components/common/Header.vue') as any
+// )
+// const triggerMenu = () => {
+//   // isCollapse.value = !isCollapse.value;
+// };
 const data = reactive({
   activeName: 'second',
   messageLists: messageList,
@@ -90,24 +97,22 @@ onUnmounted(() => {
 
 <template>
   <el-container class="home-content">
-    <!-- :isCollapse="isCollapse" -->
-    <Header @triggerMenu="triggerMenu"></Header>
+    <!-- :isCollapse="isCollapse" @triggerMenu="triggerMenu" -->
+    <Header></Header>
 
     <el-container>
       <!-- :isCollapse="isCollapse" -->
       <NavBar></NavBar>
       <el-container>
         <el-main>
-          <!-- <div class="content">
-          <Content></Content>
-        </div> -->
           <el-row :gutter="8" class="content-box">
             <el-col :span="9" class="part-box">
               <div class="grid-content bg-purple left-box">
                 <span class="trigger-btn">
                   <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-100"></use></svg
-                ></span>
+                    <use xlink:href="#icon-100"></use>
+                  </svg>
+                </span>
                 <!-- <span class="trigger-btn">
                   <i class="el-icon-s-fold"
                      v-if="isCollapse"

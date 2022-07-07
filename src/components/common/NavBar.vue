@@ -181,12 +181,8 @@ defineExpose({
                   </svg>
                   <span>&nbsp;{{ item?.title }}</span>
                 </template>
-                <template v-for="subItem in item.children">
-                  <el-sub-menu
-                    v-if="subItem.children"
-                    :index="subItem.path"
-                    :key="subItem.path"
-                  >
+                <template v-for="subItem in item.children" :key="subItem.path">
+                  <el-sub-menu v-if="subItem.children" :index="subItem.path">
                     <template #title>{{ subItem?.title }}</template>
                     <el-menu-item
                       v-for="(threeItem, i) in subItem.children"
@@ -196,7 +192,7 @@ defineExpose({
                       {{ threeItem?.title }}</el-menu-item
                     >
                   </el-sub-menu>
-                  <el-menu-item v-else :index="subItem.path" :key="subItem.path"
+                  <el-menu-item v-else :index="subItem.path"
                     >{{ subItem?.title }}
                   </el-menu-item>
                 </template>

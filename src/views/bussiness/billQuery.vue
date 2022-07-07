@@ -97,18 +97,14 @@ export default {
           :newColumns="columns"
         ></BaseTable>
         <div class="cst-footer">
+          <!-- type="green" type="orange" -->
           <el-button
-            type="green"
             size="small"
             class="success"
             @click="tranDetailHandle(true)"
             >交易明细</el-button
           >
-          <el-button
-            type="orange"
-            size="small"
-            class="warning"
-            @click="billResetHandle"
+          <el-button size="small" class="warning" @click="billResetHandle"
             >个人卡短信账单重置2021-06</el-button
           >
         </div>
@@ -289,7 +285,7 @@ onMounted(() => {
 });
 const tranHandleClick = () => {},
   TtranHandleCurrent = () => {},
-  tranDetailHandle = () => {
+  tranDetailHandle = (val: boolean) => {
     detailVisiable.value = true;
   },
   billResetHandle = () => {

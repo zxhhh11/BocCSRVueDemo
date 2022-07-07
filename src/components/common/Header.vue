@@ -7,7 +7,7 @@ export default {
 <script lang="ts" setup>
 // import { logout } from '@/apis/user';
 // import { useRouter } from 'vue-router';
-import { defineProps, onMounted, defineEmits, reactive } from 'vue';
+import { defineProps, onMounted, defineEmits, reactive, toRefs } from 'vue';
 import { Fold, Setting, Expand, Sugar } from '@element-plus/icons-vue';
 import { useStore } from '@/store/index';
 import { UserActionTypes } from '@/store/modules/user/action-types';
@@ -40,9 +40,10 @@ const options = [
   }
 ];
 
-const state = reactive({
-  // logoImg: require('../assets/images/head_logo.png')
+const data = reactive({
+  selectNum: ''
 });
+let { selectNum } = toRefs(data);
 // const emit = defineEmits<{
 //   (e: 'triggerMenu'): void;
 // }>();
@@ -120,7 +121,7 @@ onMounted(() => {});
                     例如 (982726522)</div
                   >
                   <div class="select-number">
-                    <el-select v-model="value" placeholder="请选择">
+                    <el-select v-model="selectNum" placeholder="请选择">
                       <el-option
                         v-for="item in options"
                         :key="item.value"

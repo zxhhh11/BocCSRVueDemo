@@ -778,6 +778,57 @@ const allList = {
   inter: interData,
   work: workSheet
 };
+const FINANCIALLIST = [
+  {
+    UCIFSN: 'UCIFSN0',
+    CARDNO: 'CARDNO0',
+    TOTALAMT: 'TOTALAMT0',
+    MINPAYAMT: 'MINPAYAMT0',
+    OVRBAL: 'OVRBAL0',
+    CRTARGAMT: 'CRTARGAMT0',
+    TOTALPAY: 'TOTALPAY0',
+    STRDAT: 'STRDAT0',
+    CYCDAT: 'CYCDAT0',
+    ENDDAT: 'ENDDAT0',
+    CYCLE: 'CYCLE0',
+    STRBAL: 'STRBAL0',
+    PAYDAT: 'PAYDAT0',
+    CRDTAMT: 'CRDTAMT0',
+    PAYAMT: 'PAYAMT0',
+    DBTAMT: 'DBTAMT0',
+    PERIODAMT: 'PERIODAMT0',
+    DISPUTEAMT: 'DISPUTEAMT0',
+    DISPUTETXN: 'DISPUTETXN0',
+    CURCOD: 'CURCOD0'
+  }
+];
+const TRANLISTS = [
+  {
+    STLTYPE: 'STLTYPE1',
+    BILADRTYP: 'BILADRTYP1',
+    CURCOD: 'CURCOD1',
+    UCIFSN: 'UCIFSN1',
+    ACTAUTDAT: 'ACTAUTDAT1',
+    ACTMAUDAT: 'ACTMAUDAT1',
+    ACTAUTSTS: 'ACTAUTSTS1',
+    ACTMAUSTS: 'ACTMAUSTS1',
+    CYCDAT: 'CYCDAT1',
+    PRDCOD: 'PRDCOD1',
+    ENDDAT: 'ENDDAT1',
+    FEEFLG: 'FEEFLG1',
+    STRDAT: 'STRDAT1',
+    ORLVENDDAT: 'ORLVENDDAT1',
+    ORLVSTRDAT: 'ORLVSTRDAT1',
+    ORLVFLG: 'ORLVFLG1',
+    PAYTYP: 'PAYTYP1',
+    ACTTYP: 'ACTTYP1',
+    MAINFLG: 'MAINFLG1',
+    TRSFLG: 'TRSFLG1',
+    TRSSTRDAT: 'TRSSTRDAT1',
+    TRSENDDAT: 'TRSENDDAT1',
+    INTFLG: 'INTFLG1'
+  }
+];
 export default {
   'get|/history/historyall/list': (data) => {
     let params = getUrlParams(data.url);
@@ -791,6 +842,36 @@ export default {
       data: {
         rows: newList,
         total: allList[part].length
+      }
+    };
+  },
+  'get|/history/financial/list': (data) => {
+    let params = getUrlParams(data.url);
+    let current = 10 * (params.currentPage - 1);
+    // let part = params.part;
+    // let newList = callList.slice(current, params.currentPage * 10)
+    let newList = FINANCIALLIST.slice(current, params.currentPage * 10);
+    return {
+      status: 200,
+      message: 'success1',
+      data: {
+        rows: newList,
+        total: FINANCIALLIST.length
+      }
+    };
+  },
+  'get|/history/tranQuery/list': (data) => {
+    let params = getUrlParams(data.url);
+    let current = 10 * (params.currentPage - 1);
+    // let part = params.part;
+    // let newList = callList.slice(current, params.currentPage * 10)
+    let newList = TRANLISTS.slice(current, params.currentPage * 10);
+    return {
+      status: 200,
+      message: 'success1',
+      data: {
+        rows: newList,
+        total: TRANLISTS.length
       }
     };
   }

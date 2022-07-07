@@ -71,6 +71,7 @@ export default {
     </el-table>
     <el-pagination
       v-if="hasPagination"
+      hide-on-single-page
       v-model:currentPage="currentPageValue"
       small
       layout="total, prev, pager, next, jumper"

@@ -1,4 +1,4 @@
-export const originalMockRouters = [
+export const originalMockRouters: any = [
   {
     path: '/test',
     title: '系统首页',

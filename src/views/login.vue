@@ -81,7 +81,7 @@ const submitForm = (name: string) => {
         </el-form-item>
 
         <el-form-item class="btn-form-group">
-          <el-button type="primary" @click="submitForm('ruleForm')"
+          <el-button type="primary" @click="submitForm('ruleFormRef')"
             >Submit</el-button
           >
           <!-- <el-button @click="resetForm('ruleForm')">Reset</el-button> -->
