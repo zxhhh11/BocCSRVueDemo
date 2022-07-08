@@ -9,7 +9,7 @@ import { computed, reactive, toRefs } from 'vue';
 // import { UserActionTypes } from '/@/store/modules/user/action-types';
 import { UserMutationTypes } from '@/store/modules/user/mutation-types'; // mutation 的type 合集
 const store = useStore();
-export interface stateType {
+interface stateType {
   user: string;
   num: number;
   numbers: number[];

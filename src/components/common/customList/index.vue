@@ -17,9 +17,8 @@ export default {
       <template #extra>
         <slot name="extra"></slot>
       </template>
-      <template v-for="(item, key) in list">
+      <template v-for="(item, key) in list" :key="key">
         <el-descriptions-item
-          :key="key"
           v-if="showMore"
           :span="item.span ? item.span : span"
           :label-class-name="labelClassName"
@@ -45,11 +44,31 @@ export default {
 </template>
 
 <script lang="ts" setup>
-import { defineProps, onMounted, defineEmits, reactive, computed } from 'vue';
+import {
+  defineProps,
+  onMounted,
+  defineEmits,
+  reactive,
+  computed,
+  PropType
+} from 'vue';
+interface ListType {
+  label: string;
+  value: string;
+  isTag?: boolean;
+  type?: string;
+  span?: number;
+}
 const props = defineProps({
-  list: Array,
+  list: {
+    type: Array as PropType<ListType[]>, // 用来配置使type支持typescript类型验证
+    required: true
+  },
   title: String,
-  labelStyle: Object,
+  labelStyle: {
+    //这里如果需要定义则遵照这个 labelStyle: Object as PropType<ListType> 形式
+    type: Object
+  },
   labelClassName: String,
   column: {
     type: Number,

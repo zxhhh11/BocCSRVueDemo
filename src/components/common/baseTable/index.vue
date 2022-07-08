@@ -22,7 +22,10 @@ export default {
       @selection-change="handleSelectionChange"
       @current-change="handleCurrentChange"
       style="width: 100%"
-      :default-sort="{ prop: defaultSort, order: 'descending' }"
+      :default-sort="{
+        prop: defaultSort,
+        order: 'descending'
+      }"
     >
       <el-table-column type="selection" v-if="isMutiSelect" width="55">
       </el-table-column>
@@ -92,7 +95,10 @@ import {
   toRefs
 } from 'vue';
 const props = defineProps({
-  defaultSort: String,
+  defaultSort: {
+    type: String,
+    default: ''
+  },
   title: String,
   isMutiSelect: {
     type: Boolean
@@ -101,7 +107,8 @@ const props = defineProps({
     type: Array
   },
   newColumns: {
-    type: Function
+    type: Function,
+    required: true
   },
   handleClick: {
     type: Function

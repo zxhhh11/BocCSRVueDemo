@@ -57,8 +57,10 @@
       @hide-dialog="hideModifyDialog"
       title="账单寄送方式设定交易"
       cancelText="关闭"
-      :hasConfirm="false"
-      width="50%"
+      :hasConfirm="true"
+      width="40%"
+      confirmText="提交"
+      @submit-handle="submitHandle"
     >
       <div>
         <div class="card-title">账单寄送方式查询——返回结果：</div>
@@ -81,7 +83,6 @@
                 class="m-2"
                 disabled
                 placeholder="Select"
-                @change="STLTYPEChange"
               >
                 <el-option
                   v-for="item in options"
@@ -91,20 +92,20 @@
                 />
               </el-select>
             </el-descriptions-item>
-            <el-descriptions-item label="账单寄送方式新设置" :span="1">
+            <el-descriptions-item label="账单寄送方式新设置" :span="2">
               <template #label>
                 <div class="cell-item">
                   账单寄送方式[ <span class="custom-message">新</span> ] 设置
                 </div>
               </template>
-              <el-checkbox-group v-model="NEWSTLTYPE">
-                <el-checkbox label="DUANXIN">短信</el-checkbox>
-                <el-checkbox label="EMAIL">短信</el-checkbox>
-                <el-checkbox label="ZHIZHI">纸质</el-checkbox>
-              </el-checkbox-group>
-            </el-descriptions-item>
-            <el-descriptions-item label-class-name="hide" :span="1">
-              {{ NEWSTLTYPETEXT }}
+              <span class="new-set">
+                <el-checkbox-group v-model="NEWSTLTYPE" @change="STLTYPEChange">
+                  <el-checkbox label="DUANXIN">短信</el-checkbox>
+                  <el-checkbox label="EMAIL">EMAIL</el-checkbox>
+                  <el-checkbox label="ZHIZHI">纸质</el-checkbox>
+                </el-checkbox-group>
+                <span class="new-method"> {{ NEWSTLTYPETEXT }}</span>
+              </span>
             </el-descriptions-item>
           </el-descriptions>
         </div>
@@ -139,7 +140,7 @@ const data = reactive({
   modifyVisiable: false,
   CARDNO: '',
   STLTYPE: '0',
-  NEWSTLTYPETEXT: '345'
+  NEWSTLTYPETEXT: ''
 });
 
 let {
@@ -212,9 +213,46 @@ const onSubmit = () => {
       }
     });
   },
-  STLTYPEChange = () => {
-    NEWSTLTYPETEXT.value = '123';
+  STLTYPEChange = (val: any) => {
+    let str = '',
+      strText = '';
+    console.log(val, 'value');
+    if (val.length === 1) {
+      switch (val[0]) {
+        case 'ZHIZHI':
+          str = '0';
+          strText = '0纸质';
+          break;
+        case 'EMAIL':
+          str = '2';
+          strText = '2EMAIL';
+          break;
+        case 'DUANXIN':
+          str = 'C';
+          strText = 'C推入式';
+          break;
+      }
+    } else if (val.length === 2) {
+      if (val.indexOf('ZHIZHI') === -1) {
+        str = 'G';
+        strText = 'G推入式+EMAIL';
+      } else if (val.indexOf('EMAIL') === -1) {
+        str = 'Q';
+        strText = 'Q纸质+推入式';
+      } else {
+        str = '1';
+        strText = '1纸质+EMAIL';
+      }
+    } else if (val.length === 3) {
+      str = 'U';
+      strText = 'U纸质+推入式+EMAIL';
+    } else {
+      str = '';
+      strText = '';
+    }
+    NEWSTLTYPETEXT.value = strText;
   },
+  submitHandle = () => {},
   handleClick = () => {},
   handleCurrent = () => {},
   columns = () => {
@@ -528,5 +566,22 @@ const onSubmit = () => {
 }
 .box .el-descriptions__cell.el-descriptions__label.is-bordered-label {
   width: 160px;
+}
+.el-descriptions__cell > .el-input {
+  width: 60%;
+}
+.el-descriptions__cell > .el-select {
+  width: 60%;
+}
+.new-set {
+  position: relative;
+}
+.new-set .new-method {
+  position: absolute;
+  top: 8px;
+  right: 40px;
+}
+.box .query-box {
+  margin: 6px 0;
 }
 </style>

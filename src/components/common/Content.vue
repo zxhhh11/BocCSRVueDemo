@@ -18,7 +18,8 @@ import {
   ref,
   watch,
   watchEffect,
-  toRefs
+  toRefs,
+  Ref
 } from 'vue';
 /**********data************/
 const route = useRoute();
@@ -36,16 +37,24 @@ let handleClose = () => {
 
 let tabIndex = 2;
 const editableTabsValue = ref('2');
-const editableTabs = ref([
+interface TabItemType {
+  title: string | unknown;
+  name: string;
+  content: HTMLElement;
+  closable: boolean;
+}
+const editableTabs: Ref<TabItemType[]> = ref([
   {
     title: '服务历史',
     name: '1',
-    content: serviceHistory
+    content: serviceHistory,
+    closable: false
   },
   {
     title: route.meta.title, //这个是刷新时或页面首次加载时得默认值
     name: '2',
-    content: TagModule2
+    content: TagModule2,
+    closable: false
   }
 ]);
 watchEffect(() => {
@@ -61,7 +70,9 @@ watch(
       editableTabsValue,
       'editableTabsValue'
     );
-    editableTabs.value[1].title = to.meta.title;
+    if (typeof to.meta.title === 'string') {
+      editableTabs.value[1].title = to.meta.title;
+    }
     if (editableTabsValue.value === '1' && to.fullPath !== '/login') {
       editableTabsValue.value = '2';
     }
@@ -77,9 +88,9 @@ watch(
       class="demo-tabs right-tabs"
     >
       <el-tab-pane
-        :key="item.name"
         v-for="item in editableTabs"
-        :label="item.title"
+        :key="item.name"
+        :label="(item.title as string)"
         :name="item.name"
         :closable="item.closable"
       >

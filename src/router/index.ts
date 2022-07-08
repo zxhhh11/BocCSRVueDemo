@@ -6,7 +6,10 @@ import NProgress from '@/utils/progress';
 export const routes = [
   {
     path: '/',
-    redirect: '/test'
+    redirect: '/test',
+    meta: {
+      title: 'home'
+    }
   },
   {
     path: '/',

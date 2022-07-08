@@ -24,9 +24,17 @@ export default {
   </div>
 </template>
 <script lang="ts" setup>
+import { PropType } from 'vue';
+interface LineItemType {
+  callNumber: string;
+  icon?: string;
+  color?: string;
+  operator: string;
+  time: string;
+}
 const props = defineProps({
   timelineData: {
-    type: Array
+    type: Array as PropType<LineItemType[]>
   }
 });
 </script>
